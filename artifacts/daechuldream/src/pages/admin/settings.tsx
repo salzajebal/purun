@@ -135,7 +135,7 @@ export function AdminSettings() {
   };
 
   const onTest = () => {
-    testMutation.mutate({});
+    testMutation.mutate(undefined as unknown as void);
   };
 
   if (isLoading) {

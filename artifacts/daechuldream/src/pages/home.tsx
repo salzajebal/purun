@@ -131,7 +131,7 @@ export function Home() {
                           value={jobType}
                           onChange={(e) => { setJobType(e.target.value); setErrors({}); }}
                           className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1 appearance-none bg-white"
-                          style={{ focusRingColor: PURPLE }}
+                          style={{ accentColor: PURPLE }}
                         >
                           <option value="">선택</option>
                           <option value="직장인">직장인</option>
