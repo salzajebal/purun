@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "대출드림"
+version = "1.0.0"
+id = "artifacts/daechuldream"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23711
+
+[services.development]
+run = "pnpm --filter @workspace/daechuldream run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/daechuldream", "run", "build" ]
+publicDir = "artifacts/daechuldream/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23711"
+BASE_PATH = "/"
