@@ -321,8 +321,8 @@ export function Home() {
             <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontWeight: 800 }}>맞춤 대출 상품</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { badge: "직장인", title: "대출드림 직장인", sub: "4대보험 가입 재직자", limit: "최대 3,000만", rate: "연 6.9%~", term: "12~60개월" },
-                { badge: "사업자", title: "대출드림 사업자", sub: "사업자등록 6개월 이상", limit: "최대 5,000만", rate: "연 8.9%~", term: "12~60개월" },
+                { badge: "연체자", title: "대출드림 연체자", sub: "1개월 이상 연체 지속 중인 분", limit: "최대 2,000만", rate: "연 9.9%~", term: "12~60개월" },
+                { badge: "저신용자", title: "대출드림 저신용자", sub: "신용등급 7등급 이하", limit: "최대 1,500만", rate: "연 12.9%~", term: "12~48개월" },
                 { badge: "주부", title: "대출드림 주부", sub: "만 19세 이상 주부", limit: "최대 1,000만", rate: "연 14.9%~", term: "12~36개월" },
                 { badge: "무직자", title: "대출드림 무직자", sub: "만 19세 이상 누구나", limit: "최대 500만", rate: "연 17.9%~", term: "12~24개월" },
               ].map((prod) => (
