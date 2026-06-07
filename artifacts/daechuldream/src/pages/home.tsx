@@ -27,7 +27,7 @@ function StepIndicator({ step }: { step: number }) {
             >
               {s.n}
             </div>
-            <span className="text-[10px] mt-1" style={{ color: step >= s.n ? PURPLE : "#9ca3af" }}>
+            <span className="text-[10px] mt-1" style={{ color: step >= s.n ? PURPLE : "#9ca3af", fontWeight: 600 }}>
               {s.label}
             </span>
           </div>
@@ -88,7 +88,7 @@ export function Home() {
               <h1 className="text-3xl md:text-4xl font-bold leading-snug text-gray-900" style={{ fontWeight: 800 }}>
                 대출드림<br />누구나 가능한 맞춤 대출
               </h1>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed" style={{ fontWeight: 500 }}>
                 직장인·사업자·주부·무직자 누구나<br />
                 1분 만에 대출 가능 여부를 확인하세요
               </p>
@@ -99,16 +99,16 @@ export function Home() {
               </div>
               <div className="flex gap-10 pt-2">
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>5,000만</p>
-                  <p className="text-xs text-gray-500 mt-0.5">최대 한도</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontWeight: 800 }}>5,000만</p>
+                  <p className="text-xs text-gray-500 mt-0.5" style={{ fontWeight: 600 }}>최대 한도</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>6.9%~</p>
-                  <p className="text-xs text-gray-500 mt-0.5">최저 금리</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontWeight: 800 }}>6.9%~</p>
+                  <p className="text-xs text-gray-500 mt-0.5" style={{ fontWeight: 600 }}>최저 금리</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>당일</p>
-                  <p className="text-xs text-gray-500 mt-0.5">입금</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontWeight: 800 }}>당일</p>
+                  <p className="text-xs text-gray-500 mt-0.5" style={{ fontWeight: 600 }}>입금</p>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@ export function Home() {
                   {step === 1 && (
                     <div className="space-y-3">
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">직업구분</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>직업구분</label>
                         <select
                           value={jobType}
                           onChange={(e) => { setJobType(e.target.value); setErrors({}); }}
@@ -154,7 +154,7 @@ export function Home() {
                   {step === 2 && (
                     <div className="space-y-3">
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">이름</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>이름</label>
                         <input
                           type="text"
                           value={name}
@@ -165,7 +165,7 @@ export function Home() {
                         {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">연락처</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>연락처</label>
                         <input
                           type="tel"
                           value={phone}
@@ -193,7 +193,7 @@ export function Home() {
                   {step === 3 && (
                     <div className="space-y-3">
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">희망 대출금액</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>희망 대출금액</label>
                         <select
                           value={loanAmount}
                           onChange={(e) => setLoanAmount(e.target.value)}
@@ -207,7 +207,7 @@ export function Home() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">자금 용도</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>자금 용도</label>
                         <select
                           value={loanPurpose}
                           onChange={(e) => setLoanPurpose(e.target.value)}
@@ -221,7 +221,7 @@ export function Home() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1.5">신용등급</label>
+                        <label className="block text-xs text-gray-700 mb-1.5" style={{ fontWeight: 600 }}>신용등급</label>
                         <select
                           value={creditScore}
                           onChange={(e) => setCreditScore(e.target.value)}
@@ -286,7 +286,7 @@ export function Home() {
                 { icon: "lock", label: "개인정보 보호" },
                 { icon: "bolt", label: "당일 심사·입금" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-2 text-sm text-gray-600">
+                <div key={item.label} className="flex items-center gap-2 text-sm text-gray-600" style={{ fontWeight: 600 }}>
                   {item.icon === "shield" && (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -329,19 +329,19 @@ export function Home() {
                 <div key={prod.badge} className="border border-gray-200 rounded-lg p-5 bg-white hover:shadow-sm transition-shadow">
                   <p className="text-xs font-semibold mb-1.5" style={{ color: PURPLE }}>{prod.badge}</p>
                   <h3 className="text-lg font-bold text-gray-900 mb-0.5" style={{ fontWeight: 800 }}>{prod.title}</h3>
-                  <p className="text-xs text-gray-500 mb-5">{prod.sub}</p>
+                  <p className="text-xs text-gray-500 mb-5" style={{ fontWeight: 500 }}>{prod.sub}</p>
                   <div className="flex gap-6 mb-5">
                     <div>
-                      <p className="text-xs text-gray-400 mb-1">한도</p>
-                      <p className="text-base font-bold text-gray-900">{prod.limit}</p>
+                      <p className="text-xs text-gray-500 mb-1" style={{ fontWeight: 600 }}>한도</p>
+                      <p className="text-base text-gray-900" style={{ fontWeight: 700 }}>{prod.limit}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 mb-1">금리</p>
-                      <p className="text-base font-bold text-gray-900">{prod.rate}</p>
+                      <p className="text-xs text-gray-500 mb-1" style={{ fontWeight: 600 }}>금리</p>
+                      <p className="text-base text-gray-900" style={{ fontWeight: 700 }}>{prod.rate}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 mb-1">상환</p>
-                      <p className="text-base font-bold text-gray-900">{prod.term}</p>
+                      <p className="text-xs text-gray-500 mb-1" style={{ fontWeight: 600 }}>상환</p>
+                      <p className="text-base text-gray-900" style={{ fontWeight: 700 }}>{prod.term}</p>
                     </div>
                   </div>
                   <a href="#apply">
@@ -378,7 +378,7 @@ export function Home() {
                   >
                     {String(i + 1).padStart(2, "0")}
                   </div>
-                  <p className="text-sm text-gray-300">{text}</p>
+                  <p className="text-sm text-gray-300" style={{ fontWeight: 500 }}>{text}</p>
                 </div>
               ))}
             </div>
@@ -431,8 +431,8 @@ export function Home() {
                   <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: "#e8e5ff" }}>
                     {f.icon}
                   </div>
-                  <p className="text-sm font-semibold text-gray-800">{f.label}</p>
-                  <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+                  <p className="text-sm text-gray-800" style={{ fontWeight: 700 }}>{f.label}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>{f.desc}</p>
                 </div>
               ))}
             </div>
