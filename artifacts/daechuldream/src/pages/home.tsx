@@ -77,15 +77,15 @@ export function Home() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="py-14" style={{ background: "#f3f3fb" }}>
-          <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-start gap-10">
+        <section className="py-8 md:py-14" style={{ background: "#f3f3fb" }}>
+          <div className="max-w-5xl mx-auto px-4 md:px-6 flex flex-col lg:flex-row items-start gap-6 md:gap-10">
             {/* Left */}
             <div className="flex-1 space-y-5 pt-2">
               <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium border" style={{ borderColor: PURPLE, color: PURPLE, background: "#eeebff" }}>
                 <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: PURPLE }} />
                 금융감독원 정식 등록
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold leading-snug text-gray-900" style={{ fontWeight: 800 }}>
+              <h1 className="text-[28px] md:text-4xl font-bold leading-snug text-gray-900" style={{ fontWeight: 800 }}>
                 대출드림<br />누구나 가능한 맞춤 대출
               </h1>
               <p className="text-sm text-gray-600 leading-relaxed" style={{ fontWeight: 500 }}>
@@ -114,7 +114,7 @@ export function Home() {
             </div>
 
             {/* Form Card */}
-            <div className="w-full lg:w-[360px]" id="apply">
+            <div className="w-full lg:w-[380px] flex-shrink-0" id="apply">
               <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 {/* Card Header */}
                 <div className="py-3 text-center text-white text-sm font-bold" style={{ background: PURPLE }}>
@@ -277,16 +277,16 @@ export function Home() {
         </section>
 
         {/* Trust Badges */}
-        <section className="bg-white border-t border-b border-gray-200 py-4">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="flex flex-wrap justify-center md:justify-around gap-4 md:gap-0">
+        <section className="bg-white border-t border-b border-gray-200 py-3 md:py-4">
+          <div className="max-w-5xl mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-0">
               {[
                 { icon: "shield", label: "선입금 절대 없음" },
                 { icon: "phone", label: "100% 비대면" },
                 { icon: "lock", label: "개인정보 보호" },
                 { icon: "bolt", label: "당일 심사·입금" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-2 text-sm text-gray-600" style={{ fontWeight: 600 }}>
+                <div key={item.label} className="flex items-center justify-center gap-1.5 text-sm text-gray-600 py-1" style={{ fontWeight: 600 }}>
                   {item.icon === "shield" && (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -315,8 +315,8 @@ export function Home() {
         </section>
 
         {/* Products */}
-        <section className="py-14 bg-white">
-          <div className="max-w-5xl mx-auto px-6">
+        <section className="py-10 md:py-14 bg-white">
+          <div className="max-w-5xl mx-auto px-4 md:px-6">
             <p className="text-xs font-bold mb-1 tracking-widest" style={{ color: PURPLE }}>PRODUCTS</p>
             <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontWeight: 800 }}>맞춤 대출 상품</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -356,9 +356,9 @@ export function Home() {
         </section>
 
         {/* Dark Section */}
-        <section className="py-14 bg-[#1c1c1e]">
-          <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row gap-12">
-            <div className="flex-1">
+        <section className="py-10 md:py-14 bg-[#1c1c1e]">
+          <div className="max-w-5xl mx-auto px-4 md:px-6 flex flex-col lg:flex-row gap-8 md:gap-12">
+            <div className="flex-shrink-0">
               <h2 className="text-2xl font-bold text-white leading-snug" style={{ fontWeight: 800 }}>
                 이런 고민,<br />대출드림이<br />해결합니다
               </h2>
@@ -386,13 +386,13 @@ export function Home() {
         </section>
 
         {/* Features */}
-        <section className="py-14 bg-[#f3f3fb]">
-          <div className="max-w-5xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <section className="py-10 md:py-14 bg-[#f3f3fb]">
+          <div className="max-w-5xl mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
               {[
                 {
                   label: "선입금 없음",
-                  desc: "어떤 명목하에도 선입금을 요구하지 않습니다",
+                  desc: "선입금 요구 없음",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -401,7 +401,7 @@ export function Home() {
                 },
                 {
                   label: "100% 비대면",
-                  desc: "방문 없이 모바일로 모든 절차 완료",
+                  desc: "방문 없이 모바일 완료",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -410,7 +410,7 @@ export function Home() {
                 },
                 {
                   label: "정보 보호",
-                  desc: "법적 기준에 맞춰 안전하게 관리",
+                  desc: "법적 기준 안전 관리",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -419,7 +419,7 @@ export function Home() {
                 },
                 {
                   label: "당일 입금",
-                  desc: "심사 완료 즉시 계좌로 입금",
+                  desc: "심사 완료 즉시 입금",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -427,12 +427,12 @@ export function Home() {
                   ),
                 },
               ].map((f) => (
-                <div key={f.label} className="flex flex-col items-center gap-3">
-                  <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: "#e8e5ff" }}>
+                <div key={f.label} className="flex flex-col items-center gap-2 md:gap-3">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center" style={{ background: "#e8e5ff" }}>
                     {f.icon}
                   </div>
-                  <p className="text-sm text-gray-800" style={{ fontWeight: 700 }}>{f.label}</p>
-                  <p className="text-xs text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>{f.desc}</p>
+                  <p className="text-xs md:text-sm text-gray-800" style={{ fontWeight: 700 }}>{f.label}</p>
+                  <p className="text-[11px] md:text-xs text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -440,8 +440,8 @@ export function Home() {
         </section>
 
         {/* Reviews */}
-        <section className="py-14 bg-white">
-          <div className="max-w-5xl mx-auto px-6">
+        <section className="py-10 md:py-14 bg-white">
+          <div className="max-w-5xl mx-auto px-4 md:px-6">
             <p className="text-xs font-bold mb-1 tracking-widest" style={{ color: PURPLE }}>REVIEWS</p>
             <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontWeight: 800 }}>고객 후기</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -488,8 +488,8 @@ export function Home() {
       <Footer />
 
       {/* KakaoTalk Float */}
-      <div className="fixed bottom-5 right-5 z-50">
-        <button className="flex items-center gap-2 rounded-full shadow-lg px-4 py-2.5 text-sm font-bold" style={{ background: "#FAE100", color: "#3C1E1E" }}>
+      <div className="fixed bottom-5 right-4 md:right-5 z-50">
+        <button className="flex items-center gap-2 rounded-full shadow-lg px-3 py-2 md:px-4 md:py-2.5 text-sm font-bold" style={{ background: "#FAE100", color: "#3C1E1E" }}>
           <span className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: "#3C1E1E" }}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
               <path fill="#FAE100" d="M12 3C6.48 3 2 6.72 2 11.28c0 2.88 1.62 5.43 4.1 7.02l-.71 2.64c-.11.43.16.43.34.31l2.56-1.74c.7.13 1.42.2 1.71.2 5.52 0 10-3.72 10-8.43S17.52 3 12 3z"/>
