@@ -72,7 +72,7 @@ export function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#f3f3fb", fontFamily: "'Noto Sans KR', sans-serif" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#f3f3fb", fontFamily: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
       <Header />
 
       <main className="flex-1">
@@ -85,7 +85,7 @@ export function Home() {
                 <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: PURPLE }} />
                 금융감독원 정식 등록
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold leading-snug text-gray-900" style={{ fontFamily: "'Noto Serif KR', serif", letterSpacing: "-0.02em" }}>
+              <h1 className="text-3xl md:text-4xl font-bold leading-snug text-gray-900" style={{ fontWeight: 800 }}>
                 대출드림<br />누구나 가능한 맞춤 대출
               </h1>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -99,15 +99,15 @@ export function Home() {
               </div>
               <div className="flex gap-10 pt-2">
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontFamily: "'Noto Serif KR', serif" }}>5,000만</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>5,000만</p>
                   <p className="text-xs text-gray-500 mt-0.5">최대 한도</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontFamily: "'Noto Serif KR', serif" }}>6.9%~</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>6.9%~</p>
                   <p className="text-xs text-gray-500 mt-0.5">최저 금리</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold" style={{ color: PURPLE, fontFamily: "'Noto Serif KR', serif" }}>당일</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>당일</p>
                   <p className="text-xs text-gray-500 mt-0.5">입금</p>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export function Home() {
         <section className="py-14 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <p className="text-xs font-bold mb-1 tracking-widest" style={{ color: PURPLE }}>PRODUCTS</p>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontFamily: "'Noto Serif KR', serif", letterSpacing: "-0.02em" }}>맞춤 대출 상품</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontWeight: 800 }}>맞춤 대출 상품</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { badge: "직장인", title: "대출드림 직장인", sub: "4대보험 가입 재직자", limit: "최대 3,000만", rate: "연 6.9%~", term: "12~60개월" },
@@ -328,7 +328,7 @@ export function Home() {
               ].map((prod) => (
                 <div key={prod.badge} className="border border-gray-200 rounded-lg p-5 bg-white hover:shadow-sm transition-shadow">
                   <p className="text-xs font-semibold mb-1.5" style={{ color: PURPLE }}>{prod.badge}</p>
-                  <h3 className="text-lg font-bold text-gray-900 mb-0.5" style={{ fontFamily: "'Noto Serif KR', serif" }}>{prod.title}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-0.5" style={{ fontWeight: 800 }}>{prod.title}</h3>
                   <p className="text-xs text-gray-500 mb-5">{prod.sub}</p>
                   <div className="flex gap-6 mb-5">
                     <div>
@@ -359,7 +359,7 @@ export function Home() {
         <section className="py-14 bg-[#1c1c1e]">
           <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row gap-12">
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white leading-snug" style={{ fontFamily: "'Noto Serif KR', serif", letterSpacing: "-0.02em" }}>
+              <h2 className="text-2xl font-bold text-white leading-snug" style={{ fontWeight: 800 }}>
                 이런 고민,<br />대출드림이<br />해결합니다
               </h2>
             </div>
@@ -443,7 +443,7 @@ export function Home() {
         <section className="py-14 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <p className="text-xs font-bold mb-1 tracking-widest" style={{ color: PURPLE }}>REVIEWS</p>
-            <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontFamily: "'Noto Serif KR', serif", letterSpacing: "-0.02em" }}>고객 후기</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8" style={{ fontWeight: 800 }}>고객 후기</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 {
@@ -472,7 +472,7 @@ export function Home() {
                 },
               ].map((r) => (
                 <div key={r.title} className="border border-gray-200 rounded-lg p-5">
-                  <h4 className="text-sm font-bold text-gray-900 mb-2" style={{ fontFamily: "'Noto Serif KR', serif" }}>{r.title}</h4>
+                  <h4 className="text-sm font-bold text-gray-900 mb-2" style={{ fontWeight: 800 }}>{r.title}</h4>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     <span style={{ color: PURPLE }}>{r.highlight}</span>
                     {r.content}
