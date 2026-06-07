@@ -490,10 +490,11 @@ export function Home() {
       {/* KakaoTalk Float */}
       <div className="fixed bottom-5 right-5 z-50">
         <button className="flex items-center gap-2 rounded-full shadow-lg px-4 py-2.5 text-sm font-bold" style={{ background: "#FAE100", color: "#3C1E1E" }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-6 h-6">
-            <path fill="#3C1E1E" d="M255.5 48C132.6 48 32 135.6 32 245.5c0 69.6 39.8 130.8 100.2 168.1-3.8 14.2-13.9 51.4-15.9 59.4-2.5 9.8 3.6 9.7 7.6 7.1 3.2-2.1 51.1-34.5 71.8-48.5 19.1 3.5 39 5.4 59.8 5.4 122.9 0 223.5-87.6 223.5-197.5C480 135.6 378.4 48 255.5 48z"/>
-            <path fill="#FAE100" d="M173 285l18-56h-14l-12 38-12-38h-14l18 56zm72-56h-44v56h14v-20h20v-12h-20v-12h30zm28 0h-14v56h14zm54 0h-14l-22 36v-36h-14v56h14l22-36v36h14z"/>
-          </svg>
+          <span className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: "#3C1E1E" }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
+              <path fill="#FAE100" d="M12 3C6.48 3 2 6.72 2 11.28c0 2.88 1.62 5.43 4.1 7.02l-.71 2.64c-.11.43.16.43.34.31l2.56-1.74c.7.13 1.42.2 1.71.2 5.52 0 10-3.72 10-8.43S17.52 3 12 3z"/>
+            </svg>
+          </span>
           카카오톡 상담
         </button>
       </div>
