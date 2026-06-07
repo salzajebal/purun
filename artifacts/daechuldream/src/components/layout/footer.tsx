@@ -16,7 +16,7 @@ export function Footer() {
       {/* Footer */}
       <footer className="bg-[#1c1c1e] text-gray-400 py-8">
         <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="text-xs leading-relaxed space-y-1">
+          <div className="text-xs leading-relaxed space-y-1" style={{ fontWeight: 500 }}>
             <p>회사명 : 대출드림 (주식회사 대출드림대부) / 대부중개등록번호 : 2024-금강원-2687(대부업)</p>
             <p>사업자번호 : 637-88-03205 / 대표자 : 최병환</p>
             <p>주소 : 경기도 성남시 성남대로194번길 72, 8이오 (다산동) / 전화번호 : 0504-8721-0804</p>

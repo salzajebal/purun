@@ -472,12 +472,12 @@ export function Home() {
                 },
               ].map((r) => (
                 <div key={r.title} className="border border-gray-200 rounded-lg p-5">
-                  <h4 className="text-sm font-bold text-gray-900 mb-2" style={{ fontWeight: 800 }}>{r.title}</h4>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    <span style={{ color: PURPLE }}>{r.highlight}</span>
+                  <h4 className="text-base text-gray-900 mb-2" style={{ fontWeight: 800 }}>{r.title}</h4>
+                  <p className="text-sm text-gray-700 leading-relaxed" style={{ fontWeight: 500 }}>
+                    <span style={{ color: PURPLE, fontWeight: 600 }}>{r.highlight}</span>
                     {r.content}
                   </p>
-                  <p className="text-xs text-gray-400 mt-3">{r.meta}</p>
+                  <p className="text-xs text-gray-500 mt-3" style={{ fontWeight: 500 }}>{r.meta}</p>
                 </div>
               ))}
             </div>
