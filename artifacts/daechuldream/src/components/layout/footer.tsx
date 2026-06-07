@@ -1,45 +1,42 @@
-import { Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
 export function Footer() {
   return (
-    <footer className="border-t bg-card text-card-foreground">
-      <div className="container mx-auto px-4 sm:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div>
-            <h3 className="text-lg font-bold text-primary mb-4">대출드림</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              프리미엄 대출 중개 서비스. 직장인, 사업자, 주부, 무직자 누구나 최적의 대출을 찾아드립니다.
-            </p>
-            <div className="text-sm text-muted-foreground space-y-1">
-              <p>상호: 대출드림대부중개 | 대표자: 홍길동</p>
-              <p>사업자등록번호: 123-45-67890 | 대부중개업 등록번호: 2024-서울강남-0001</p>
-              <p>주소: 서울특별시 강남구 테헤란로 123, 4층</p>
-            </div>
-          </div>
-          <div className="flex flex-col items-start md:items-end justify-start">
-            <div className="text-left md:text-right">
-              <p className="text-sm font-medium mb-2">고객센터</p>
-              <p className="text-3xl font-bold text-primary mb-2">1588-0000</p>
-              <p className="text-sm text-muted-foreground mb-4">평일 09:00 - 18:00 (주말/공휴일 휴무)</p>
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90" size="lg">
-                <Phone className="mr-2 h-4 w-4" />
-                전화상담 신청
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="border-t pt-8 text-xs text-muted-foreground">
-          <p className="mb-2 font-medium">대출 시 유의사항</p>
-          <ul className="list-disc pl-4 space-y-1">
-            <li>대출금리는 연 20% 이내이며, 연체이자율은 약정금리 + 연 3% (최대 연 20% 이내) 입니다.</li>
-            <li>취급수수료 등 기타 부대비용은 없습니다. (단, 부동산 담보대출의 경우 근저당설정비용 등 발생 가능)</li>
-            <li>과도한 빚은 당신에게 큰 불행을 안겨줄 수 있습니다. 대출 시 귀하의 신용등급이 하락할 수 있습니다.</li>
-            <li>중개수수료를 요구하거나 받는 것은 불법입니다.</li>
-          </ul>
-          <p className="mt-6 text-center">&copy; 2024 대출드림. All rights reserved.</p>
+    <>
+      {/* Disclaimer */}
+      <div className="bg-white border-t border-gray-200 py-6">
+        <div className="max-w-5xl mx-auto px-6">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            대출금리 연 20% 이내 · 연체금리 약정이자율 +3%P 이내(연 20% 이내) · 2021.07.07 이후 신규·갱신 연장 계약 한정 · 만 19세 이상 · 제무 불이행 등록자 제외 · 수수료 없음 · 대출기간 12~60개월 · 예시 100만원 9920% 12개월 균등상환 총 1,111,609원
+          </p>
+          <p className="text-xs text-[#e00] font-semibold mt-3">
+            중개수수료를 요구하거나 받는 것은 불법입니다. 과도한 빚은 당신에게 큰 불행을 안겨줄 수 있습니다.
+          </p>
         </div>
       </div>
-    </footer>
+
+      {/* Footer */}
+      <footer className="bg-[#1c1c1e] text-gray-400 py-8">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="text-xs leading-relaxed space-y-1">
+            <p>회사명 : 대출드림 (주식회사 대출드림대부) / 대부중개등록번호 : 2024-금강원-2687(대부업)</p>
+            <p>사업자번호 : 637-88-03205 / 대표자 : 최병환</p>
+            <p>주소 : 경기도 성남시 성남대로194번길 72, 8이오 (다산동) / 전화번호 : 0504-8721-0804</p>
+            <p>대부중개업등록번호 : 2024-금강원-2687(대부업)</p>
+          </div>
+          <div className="flex-shrink-0">
+            <a href="tel:050487210804">
+              <button className="flex items-center gap-2 bg-[#1a73e8] text-white text-sm font-semibold px-5 py-2.5 rounded-md hover:bg-[#1557b0] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                전화 연결
+              </button>
+            </a>
+          </div>
+        </div>
+        <div className="max-w-5xl mx-auto px-6 mt-6 border-t border-gray-700 pt-4">
+          <p className="text-xs text-center text-gray-500">© 2026 대출드림</p>
+        </div>
+      </footer>
+    </>
   );
 }

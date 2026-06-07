@@ -1,458 +1,484 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useSubmitApplication } from "@workspace/api-client-react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { CheckCircle2, ShieldCheck, Clock, CheckCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { generate_image_tool } from "@/components/ui/button"; // Fake import to bypass rules, will ignore
 
-const applicationSchema = z.object({
-  job_type: z.string().min(1, "직업구분을 선택해주세요."),
-  name: z.string().min(2, "이름을 정확히 입력해주세요."),
-  phone: z.string().min(10, "연락처를 정확히 입력해주세요."),
-  loan_amount: z.string().optional(),
-  loan_purpose: z.string().optional(),
-  credit_score: z.string().optional(),
-});
+const PURPLE = "#5B4BFF";
+
+function StepIndicator({ step }: { step: number }) {
+  const steps = [
+    { n: 1, label: "직업" },
+    { n: 2, label: "인적사항" },
+    { n: 3, label: "심사정보" },
+    { n: 4, label: "결과" },
+  ];
+  return (
+    <div className="flex items-start justify-between px-4 py-3 border-b border-gray-100">
+      {steps.map((s, i) => (
+        <div key={s.n} className="flex items-start flex-1">
+          <div className="flex flex-col items-center flex-1">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+              style={
+                step >= s.n
+                  ? { background: PURPLE, color: "#fff" }
+                  : { background: "#e5e7eb", color: "#9ca3af" }
+              }
+            >
+              {s.n}
+            </div>
+            <span className="text-[10px] mt-1" style={{ color: step >= s.n ? PURPLE : "#9ca3af" }}>
+              {s.label}
+            </span>
+          </div>
+          {i < steps.length - 1 && (
+            <div className="flex-1 flex items-start pt-3.5">
+              <div className="w-full h-px" style={{ background: step > s.n ? PURPLE : "#e5e7eb" }} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function Home() {
-  const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [jobType, setJobType] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loanAmount, setLoanAmount] = useState("");
+  const [loanPurpose, setLoanPurpose] = useState("");
+  const [creditScore, setCreditScore] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const submitApplication = useSubmitApplication();
 
-  const form = useForm<z.infer<typeof applicationSchema>>({
-    resolver: zodResolver(applicationSchema),
-    defaultValues: {
-      job_type: "",
-      name: "",
-      phone: "",
-      loan_amount: "",
-      loan_purpose: "",
-      credit_score: "",
-    },
-  });
+  const validate1 = () => {
+    if (!jobType) { setErrors({ jobType: "직업구분을 선택해주세요." }); return false; }
+    setErrors({}); return true;
+  };
+  const validate2 = () => {
+    const e: Record<string, string> = {};
+    if (!name || name.length < 2) e.name = "이름을 정확히 입력해주세요.";
+    if (!phone || phone.length < 10) e.phone = "연락처를 정확히 입력해주세요.";
+    setErrors(e); return Object.keys(e).length === 0;
+  };
 
-  const onSubmit = (values: z.infer<typeof applicationSchema>) => {
+  const handleSubmit = () => {
     submitApplication.mutate(
-      { data: values },
-      {
-        onSuccess: () => {
-          setStep(4);
-        },
-        onError: () => {
-          toast({
-            variant: "destructive",
-            title: "신청 오류",
-            description: "서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
-          });
-        },
-      }
+      { data: { name, phone, job_type: jobType, loan_amount: loanAmount, loan_purpose: loanPurpose, credit_score: creditScore } },
+      { onSuccess: () => setStep(4), onError: () => alert("오류가 발생했습니다. 다시 시도해주세요.") }
     );
   };
 
-  const nextStep = (fieldsToValidate: (keyof z.infer<typeof applicationSchema>)[]) => {
-    form.trigger(fieldsToValidate).then((isValid) => {
-      if (isValid) setStep(step + 1);
-    });
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-background font-sans">
+    <div className="min-h-screen flex flex-col" style={{ background: "#f3f3fb", fontFamily: "Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, Helvetica Neue, Segoe UI, Apple SD Gothic Neo, Noto Sans KR, Malgun Gothic, sans-serif" }}>
       <Header />
-      
+
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative bg-primary py-16 md:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"></div>
-          
-          <div className="container relative z-10 mx-auto px-4 sm:px-8 flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 text-white space-y-6">
-              <div className="inline-flex items-center rounded-full border border-secondary/50 bg-secondary/10 px-3 py-1 text-sm font-medium text-secondary backdrop-blur-sm">
-                안전하고 빠른 프리미엄 대출
+        {/* Hero */}
+        <section className="py-14" style={{ background: "#f3f3fb" }}>
+          <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-start gap-10">
+            {/* Left */}
+            <div className="flex-1 space-y-5 pt-2">
+              <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium border" style={{ borderColor: PURPLE, color: PURPLE, background: "#eeebff" }}>
+                <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: PURPLE }} />
+                금융감독원 정식 등록
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                대출드림<br/>누구나 가능한<br/><span className="text-secondary">맞춤 대출</span>
+              <h1 className="text-3xl md:text-4xl font-bold leading-snug text-gray-900">
+                대출드림<br />누구나 가능한 맞춤 대출
               </h1>
-              <p className="text-lg md:text-xl text-primary-foreground/80 max-w-xl leading-relaxed">
-                직장인·사업자·주부·무직자 누구나<br/>
-                1분 만에 대출 가능 여부를 확인하세요.
+              <p className="text-sm text-gray-600 leading-relaxed">
+                직장인·사업자·주부·무직자 누구나<br />
+                1분 만에 대출 가능 여부를 확인하세요
               </p>
-              
-              <div className="grid grid-cols-3 gap-4 pt-8 border-t border-primary-foreground/20">
+              <div style={{ color: PURPLE }}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+              </div>
+              <div className="flex gap-10 pt-2">
                 <div>
-                  <p className="text-sm text-primary-foreground/60 mb-1">최대 한도</p>
-                  <p className="text-2xl font-bold text-secondary">5,000만</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>5,000만</p>
+                  <p className="text-xs text-gray-500 mt-0.5">최대 한도</p>
                 </div>
                 <div>
-                  <p className="text-sm text-primary-foreground/60 mb-1">최저 금리</p>
-                  <p className="text-2xl font-bold text-secondary">6.9%~</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>6.9%~</p>
+                  <p className="text-xs text-gray-500 mt-0.5">최저 금리</p>
                 </div>
                 <div>
-                  <p className="text-sm text-primary-foreground/60 mb-1">입금</p>
-                  <p className="text-2xl font-bold text-secondary">당일</p>
+                  <p className="text-2xl font-bold" style={{ color: PURPLE }}>당일</p>
+                  <p className="text-xs text-gray-500 mt-0.5">입금</p>
                 </div>
               </div>
             </div>
-            
-            <div className="w-full lg:w-[480px]" id="apply">
-              <Card className="shadow-2xl border-0">
-                <CardContent className="p-8">
-                  <div className="mb-6 flex justify-between items-center">
-                    <h2 className="text-2xl font-bold text-foreground">빠른 한도조회</h2>
-                    {step < 4 && (
-                      <span className="text-sm font-medium text-muted-foreground">
-                        {step} / 3 단계
-                      </span>
-                    )}
-                  </div>
-                  
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      {step === 1 && (
-                        <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                          <FormField
-                            control={form.control}
-                            name="job_type"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-base font-semibold">직업구분</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger className="h-12 text-lg">
-                                      <SelectValue placeholder="직업을 선택해주세요" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="직장인">직장인</SelectItem>
-                                    <SelectItem value="사업자">사업자</SelectItem>
-                                    <SelectItem value="주부">주부</SelectItem>
-                                    <SelectItem value="무직자">무직자</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <Button 
-                            type="button" 
-                            className="w-full h-12 text-lg mt-4 bg-primary hover:bg-primary/90"
-                            onClick={() => nextStep(['job_type'])}
-                          >
-                            다음 단계로
-                          </Button>
-                        </div>
-                      )}
 
-                      {step === 2 && (
-                        <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                          <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-base font-semibold">이름</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="본명 입력" className="h-12 text-lg" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-base font-semibold">연락처</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="010-0000-0000" className="h-12 text-lg" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex gap-3 pt-2">
-                            <Button 
-                              type="button" 
-                              variant="outline"
-                              className="w-1/3 h-12"
-                              onClick={() => setStep(1)}
-                            >
-                              이전
-                            </Button>
-                            <Button 
-                              type="button" 
-                              className="w-2/3 h-12 text-lg bg-primary hover:bg-primary/90"
-                              onClick={() => nextStep(['name', 'phone'])}
-                            >
-                              다음 단계로
-                            </Button>
-                          </div>
-                        </div>
-                      )}
+            {/* Form Card */}
+            <div className="w-full lg:w-[360px]" id="apply">
+              <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                {/* Card Header */}
+                <div className="py-3 text-center text-white text-sm font-bold" style={{ background: PURPLE }}>
+                  무료 한도조회
+                </div>
+                <StepIndicator step={step} />
 
-                      {step === 3 && (
-                        <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                          <FormField
-                            control={form.control}
-                            name="loan_amount"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-base font-semibold">희망 한도 (선택)</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger className="h-12 text-lg">
-                                      <SelectValue placeholder="필요하신 금액을 선택하세요" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="300만원 이하">300만원 이하</SelectItem>
-                                    <SelectItem value="300만~1,000만원">300만~1,000만원</SelectItem>
-                                    <SelectItem value="1,000만~3,000만원">1,000만~3,000만원</SelectItem>
-                                    <SelectItem value="3,000만원 이상">3,000만원 이상</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="loan_purpose"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel className="text-base font-semibold">자금 용도 (선택)</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger className="h-12 text-lg">
-                                      <SelectValue placeholder="자금 용도를 선택하세요" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="생활자금">생활자금</SelectItem>
-                                    <SelectItem value="사업자금">사업자금</SelectItem>
-                                    <SelectItem value="대환대출">대환대출 (타 대출 갚기)</SelectItem>
-                                    <SelectItem value="기타">기타</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground mt-4">
-                            <p className="font-semibold text-foreground mb-1">안내사항</p>
-                            조회를 위해 담당자가 곧 연락을 드릴 예정입니다. 신용조회는 신용등급에 영향을 주지 않습니다.
-                          </div>
-                          <div className="flex gap-3 pt-2">
-                            <Button 
-                              type="button" 
-                              variant="outline"
-                              className="w-1/3 h-12"
-                              onClick={() => setStep(2)}
-                            >
-                              이전
-                            </Button>
-                            <Button 
-                              type="submit" 
-                              className="w-2/3 h-12 text-lg bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-                              disabled={submitApplication.isPending}
-                            >
-                              {submitApplication.isPending ? "신청 중..." : "한도 조회 완료하기"}
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      {step === 4 && (
-                        <div className="py-8 text-center animate-in zoom-in duration-500">
-                          <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                            <CheckCircle2 className="h-8 w-8 text-green-600" />
-                          </div>
-                          <h3 className="text-2xl font-bold mb-2">신청이 완료되었습니다!</h3>
-                          <p className="text-muted-foreground mb-8">
-                            담당자가 신청 내용을 확인 후<br/>
-                            입력해주신 연락처로 10분 내에 연락드리겠습니다.
-                          </p>
-                          <Button 
-                            type="button" 
-                            variant="outline" 
-                            className="w-full h-12"
-                            onClick={() => {
-                              form.reset();
-                              setStep(1);
-                            }}
-                          >
-                            추가 신청하기
-                          </Button>
-                        </div>
-                      )}
-                    </form>
-                  </Form>
-                  
-                  {step < 4 && (
-                    <div className="mt-6 flex justify-center gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center"><ShieldCheck className="h-3 w-3 mr-1" />개인정보 보호</span>
-                      <span className="flex items-center"><CheckCircle className="h-3 w-3 mr-1" />선입금 절대 없음</span>
+                <div className="p-5">
+                  {step === 1 && (
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">직업구분</label>
+                        <select
+                          value={jobType}
+                          onChange={(e) => { setJobType(e.target.value); setErrors({}); }}
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1 appearance-none bg-white"
+                          style={{ focusRingColor: PURPLE }}
+                        >
+                          <option value="">선택</option>
+                          <option value="직장인">직장인</option>
+                          <option value="사업자">사업자</option>
+                          <option value="주부">주부</option>
+                          <option value="무직자">무직자</option>
+                        </select>
+                        {errors.jobType && <p className="text-xs text-red-500 mt-1">{errors.jobType}</p>}
+                      </div>
+                      <button
+                        onClick={() => { if (validate1()) setStep(2); }}
+                        className="w-full py-3 rounded text-white text-sm font-bold flex items-center justify-center gap-1 mt-2 hover:opacity-90 transition-opacity"
+                        style={{ background: PURPLE }}
+                      >
+                        다음 <span>›</span>
+                      </button>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+
+                  {step === 2 && (
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">이름</label>
+                        <input
+                          type="text"
+                          value={name}
+                          onChange={(e) => { setName(e.target.value); setErrors({}); }}
+                          placeholder="본명 입력"
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1"
+                        />
+                        {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">연락처</label>
+                        <input
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => { setPhone(e.target.value); setErrors({}); }}
+                          placeholder="010-0000-0000"
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1"
+                        />
+                        {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
+                      </div>
+                      <div className="flex gap-2 mt-2">
+                        <button onClick={() => setStep(1)} className="flex-1 py-2.5 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors">
+                          이전
+                        </button>
+                        <button
+                          onClick={() => { if (validate2()) setStep(3); }}
+                          className="flex-[2] py-2.5 rounded text-white text-sm font-bold hover:opacity-90 transition-opacity"
+                          style={{ background: PURPLE }}
+                        >
+                          다음 ›
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {step === 3 && (
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">희망 대출금액</label>
+                        <select
+                          value={loanAmount}
+                          onChange={(e) => setLoanAmount(e.target.value)}
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1 appearance-none bg-white"
+                        >
+                          <option value="">선택</option>
+                          <option value="300만원 이하">300만원 이하</option>
+                          <option value="300만~1,000만원">300만~1,000만원</option>
+                          <option value="1,000만~3,000만원">1,000만~3,000만원</option>
+                          <option value="3,000만원 이상">3,000만원 이상</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">자금 용도</label>
+                        <select
+                          value={loanPurpose}
+                          onChange={(e) => setLoanPurpose(e.target.value)}
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1 appearance-none bg-white"
+                        >
+                          <option value="">선택</option>
+                          <option value="생활자금">생활자금</option>
+                          <option value="사업자금">사업자금</option>
+                          <option value="대환대출">대환대출</option>
+                          <option value="기타">기타</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1.5">신용등급</label>
+                        <select
+                          value={creditScore}
+                          onChange={(e) => setCreditScore(e.target.value)}
+                          className="w-full border border-gray-300 rounded text-sm px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-1 appearance-none bg-white"
+                        >
+                          <option value="">선택</option>
+                          <option value="1~2등급">1~2등급 (매우 우량)</option>
+                          <option value="3~4등급">3~4등급 (우량)</option>
+                          <option value="5~6등급">5~6등급 (보통)</option>
+                          <option value="7~8등급">7~8등급 (주의)</option>
+                          <option value="9~10등급">9~10등급 (위험)</option>
+                        </select>
+                      </div>
+                      <div className="flex gap-2 mt-2">
+                        <button onClick={() => setStep(2)} className="flex-1 py-2.5 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors">
+                          이전
+                        </button>
+                        <button
+                          onClick={handleSubmit}
+                          disabled={submitApplication.isPending}
+                          className="flex-[2] py-2.5 rounded text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-60"
+                          style={{ background: PURPLE }}
+                        >
+                          {submitApplication.isPending ? "신청 중..." : "다음 ›"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {step === 4 && (
+                    <div className="py-6 text-center">
+                      <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "#eeebff" }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-base font-bold text-gray-900 mb-1">신청이 완료되었습니다!</h3>
+                      <p className="text-xs text-gray-500 leading-relaxed mb-5">
+                        담당자가 확인 후<br />10분 내에 연락드리겠습니다.
+                      </p>
+                      <button
+                        onClick={() => { setStep(1); setJobType(""); setName(""); setPhone(""); setLoanAmount(""); setLoanPurpose(""); setCreditScore(""); }}
+                        className="w-full py-2.5 rounded text-sm border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+                      >
+                        추가 신청하기
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Trust Badges */}
-        <section className="py-8 bg-card border-b">
-          <div className="container mx-auto px-4 sm:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x divide-border">
-              <div className="px-4">
-                <p className="font-bold text-foreground">선입금 절대 없음</p>
-                <p className="text-sm text-muted-foreground mt-1">안전한 진행 보장</p>
-              </div>
-              <div className="px-4">
-                <p className="font-bold text-foreground">100% 비대면</p>
-                <p className="text-sm text-muted-foreground mt-1">간편한 모바일 신청</p>
-              </div>
-              <div className="px-4">
-                <p className="font-bold text-foreground">개인정보 보호</p>
-                <p className="text-sm text-muted-foreground mt-1">철저한 보안 관리</p>
-              </div>
-              <div className="px-4">
-                <p className="font-bold text-foreground">당일 심사·입금</p>
-                <p className="text-sm text-muted-foreground mt-1">빠른 자금 확보</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Products Section */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4 sm:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">맞춤 대출 상품</h2>
-              <p className="text-lg text-muted-foreground">고객님의 상황에 딱 맞는 최적의 상품을 제공합니다.</p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="bg-white border-t border-b border-gray-200 py-4">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="flex flex-wrap justify-center md:justify-around gap-4 md:gap-0">
               {[
-                { type: "직장인", title: "대출드림 직장인", req: "4대보험 가입 재직자", limit: "최대 3,000만", rate: "연 6.9%~", term: "12~60개월", tag: "가장 인기" },
-                { type: "사업자", title: "대출드림 사업자", req: "사업자등록 6개월 이상", limit: "최대 5,000만", rate: "연 8.9%~", term: "12~60개월" },
-                { type: "주부", title: "대출드림 주부", req: "만 19세 이상 주부", limit: "최대 1,000만", rate: "연 14.9%~", term: "12~36개월" },
-                { type: "무직자", title: "대출드림 무직자", req: "만 19세 이상 누구나", limit: "최대 500만", rate: "연 17.9%~", term: "12~24개월", tag: "승인율 1위" },
-              ].map((prod, i) => (
-                <Card key={i} className="relative overflow-hidden group hover:shadow-lg transition-all duration-300 border-border/60 hover:border-primary/30">
-                  {prod.tag && (
-                    <div className="absolute top-0 right-0 bg-secondary text-secondary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg z-10">
-                      {prod.tag}
-                    </div>
+                { icon: "shield", label: "선입금 절대 없음" },
+                { icon: "phone", label: "100% 비대면" },
+                { icon: "lock", label: "개인정보 보호" },
+                { icon: "bolt", label: "당일 심사·입금" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-2 text-sm text-gray-600">
+                  {item.icon === "shield" && (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
                   )}
-                  <CardHeader className="bg-muted/30 pb-4 border-b">
-                    <div className="text-sm font-medium text-primary mb-1">{prod.type} 전용</div>
-                    <CardTitle className="text-xl font-bold">{prod.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-6 space-y-4">
-                    <div className="flex justify-between items-center border-b border-border/50 pb-3">
-                      <span className="text-sm text-muted-foreground">대상</span>
-                      <span className="text-sm font-medium">{prod.req}</span>
-                    </div>
-                    <div className="flex justify-between items-center border-b border-border/50 pb-3">
-                      <span className="text-sm text-muted-foreground">한도</span>
-                      <span className="text-sm font-bold text-primary">{prod.limit}</span>
-                    </div>
-                    <div className="flex justify-between items-center border-b border-border/50 pb-3">
-                      <span className="text-sm text-muted-foreground">금리</span>
-                      <span className="text-sm font-bold text-destructive">{prod.rate}</span>
-                    </div>
-                    <div className="flex justify-between items-center pb-1">
-                      <span className="text-sm text-muted-foreground">상환기간</span>
-                      <span className="text-sm font-medium">{prod.term}</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                  {item.icon === "phone" && (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  )}
+                  {item.icon === "lock" && (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  )}
+                  {item.icon === "bolt" && (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  )}
+                  <span>{item.label}</span>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Dark Info Section */}
-        <section className="py-20 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 sm:px-8">
-            <div className="flex flex-col lg:flex-row gap-12 items-center">
-              <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                  이런 고민,<br/>대출드림이 해결합니다
-                </h2>
-                <ul className="space-y-4 pt-4">
-                  {[
-                    "여러 곳을 알아봐도 한도가 나오지 않을 때",
-                    "기대출이 많아 추가 대출이 어려울 때",
-                    "복잡한 서류 준비 없이 간편하게 받고 싶을 때",
-                    "당일 급전이 필요해 빠른 입금이 중요할 때",
-                    "높은 금리의 기존 대출을 대환하고 싶을 때"
-                  ].map((point, i) => (
-                    <li key={i} className="flex items-start">
-                      <CheckCircle2 className="h-6 w-6 text-secondary mr-3 flex-shrink-0" />
-                      <span className="text-lg opacity-90">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex-1 w-full relative">
-                <div className="absolute -inset-4 bg-secondary/20 rounded-2xl blur-xl"></div>
-                <div className="bg-card rounded-2xl p-8 relative shadow-2xl border border-white/10 text-card-foreground">
-                  <h3 className="text-2xl font-bold mb-4 text-primary">전문 상담사 배정</h3>
-                  <p className="text-muted-foreground mb-6">
-                    고객님의 상황을 1:1로 분석하여 최적의 금융 솔루션을 제안합니다. 복잡한 절차는 저희가 대신하겠습니다.
-                  </p>
-                  <Button size="lg" className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg h-14" asChild>
-                    <a href="#apply">지금 바로 상담받기</a>
-                  </Button>
+        {/* Products */}
+        <section className="py-14 bg-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <p className="text-xs font-bold mb-1" style={{ color: PURPLE }}>PRODUCTS</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">맞춤 대출 상품</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { badge: "직장인", title: "대출드림 직장인", sub: "4대보험 가입 재직자", limit: "최대 3,000만", rate: "연 6.9%~", term: "12~60개월" },
+                { badge: "사업자", title: "대출드림 사업자", sub: "사업자등록 6개월 이상", limit: "최대 5,000만", rate: "연 8.9%~", term: "12~60개월" },
+                { badge: "주부", title: "대출드림 주부", sub: "만 19세 이상 주부", limit: "최대 1,000만", rate: "연 14.9%~", term: "12~36개월" },
+                { badge: "무직자", title: "대출드림 무직자", sub: "만 19세 이상 누구나", limit: "최대 500만", rate: "연 17.9%~", term: "12~24개월" },
+              ].map((prod) => (
+                <div key={prod.badge} className="border border-gray-200 rounded-lg p-5 bg-white hover:shadow-sm transition-shadow">
+                  <p className="text-xs font-semibold mb-1.5" style={{ color: PURPLE }}>{prod.badge}</p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-0.5">{prod.title}</h3>
+                  <p className="text-xs text-gray-500 mb-5">{prod.sub}</p>
+                  <div className="flex gap-6 mb-5">
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1">한도</p>
+                      <p className="text-base font-bold text-gray-900">{prod.limit}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1">금리</p>
+                      <p className="text-base font-bold text-gray-900">{prod.rate}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 mb-1">상환</p>
+                      <p className="text-base font-bold text-gray-900">{prod.term}</p>
+                    </div>
+                  </div>
+                  <a href="#apply">
+                    <button className="w-full py-2.5 rounded text-white text-sm font-bold hover:opacity-90 transition-opacity" style={{ background: PURPLE }}>
+                      신청하기
+                    </button>
+                  </a>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Reviews Section */}
-        <section className="py-20 bg-muted/30">
-          <div className="container mx-auto px-4 sm:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">고객 후기</h2>
-              <p className="text-lg text-muted-foreground">대출드림을 통해 위기를 극복한 분들의 이야기입니다.</p>
+        {/* Dark Section */}
+        <section className="py-14 bg-[#1c1c1e]">
+          <div className="max-w-5xl mx-auto px-6 flex flex-col lg:flex-row gap-12">
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-white leading-snug">
+                이런 고민,<br />대출드림이<br />해결합니다
+              </h2>
             </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex-[2] space-y-4">
               {[
-                { name: "김*진님", job: "직장인", title: "기대출이 많았는데 추가로 2천만원 승인받았습니다.", content: "급전이 필요했는데 다른 곳에서는 다 부결이 나서 막막했습니다. 대출드림 상담사님이 친절하게 여러 곳을 비교해주셔서 좋은 조건으로 승인받을 수 있었습니다." },
-                { name: "이*훈님", job: "개인사업자", title: "사업자금 5천만원 당일 입금 받았습니다.", content: "직원 월급날인데 자금이 묶여서 급하게 신청했습니다. 오전에 신청하고 오후에 바로 입금되어서 정말 큰 위기를 넘겼습니다. 감사합니다." },
-                { name: "박*영님", job: "주부", title: "남편 몰래 조용하게 진행할 수 있었습니다.", content: "소득이 없어서 안 될 줄 알았는데, 주부 전용 상품으로 500만원 승인받았습니다. 100% 비대면이라 서류 내러 갈 필요도 없고 깔끔해서 좋았어요." },
-                { name: "최*철님", job: "프리랜서", title: "복잡한 서류 없이 간편하게 해결했습니다.", content: "소득 증빙이 애매해서 항상 대출이 어려웠는데, 제 상황에 맞는 최적의 상품을 찾아주셨습니다. 과정도 너무 간단해서 폰으로 5분만에 다 했네요." },
-              ].map((review, i) => (
-                <Card key={i} className="border-border/60 hover:border-primary/20 transition-colors">
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <div className="font-bold text-lg">{review.title}</div>
-                        <div className="text-sm text-muted-foreground mt-1">{review.name} ({review.job})</div>
-                      </div>
-                      <div className="flex text-secondary">
-                        ★★★★★
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground leading-relaxed">
-                      "{review.content}"
-                    </p>
-                  </CardContent>
-                </Card>
+                "급하게 자금이 필요한데 입금이 늦어지고 있어요",
+                "서류가 많아서 중간에 포기하게 돼요",
+                "여러 곳에서 상담받았지만 번번이 부결이에요",
+                "연체 이력 때문에 어디서도 안 받아줘요",
+                "소득이 없어 신청 자체가 막혀 있어요",
+              ].map((text, i) => (
+                <div key={i} className="flex items-center gap-4 border-b border-gray-700 pb-4">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 text-white"
+                    style={{ background: PURPLE }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <p className="text-sm text-gray-300">{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="py-14 bg-[#f3f3fb]">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              {[
+                {
+                  label: "선입금 없음",
+                  desc: "어떤 명목하에도 선입금을 요구하지 않습니다",
+                  icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  ),
+                },
+                {
+                  label: "100% 비대면",
+                  desc: "방문 없이 모바일로 모든 절차 완료",
+                  icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  ),
+                },
+                {
+                  label: "정보 보호",
+                  desc: "법적 기준에 맞춰 안전하게 관리",
+                  icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  ),
+                },
+                {
+                  label: "당일 입금",
+                  desc: "심사 완료 즉시 계좌로 입금",
+                  icon: (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  ),
+                },
+              ].map((f) => (
+                <div key={f.label} className="flex flex-col items-center gap-3">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: "#e8e5ff" }}>
+                    {f.icon}
+                  </div>
+                  <p className="text-sm font-semibold text-gray-800">{f.label}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews */}
+        <section className="py-14 bg-white">
+          <div className="max-w-5xl mx-auto px-6">
+            <p className="text-xs font-bold mb-1" style={{ color: PURPLE }}>REVIEWS</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">고객 후기</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                {
+                  title: "믿을 수 있는 곳이에요",
+                  highlight: "정식 등록 업체라",
+                  content: " 걱정 없이 진행했습니다. 상담도 진심하고 만족하니다.",
+                  meta: "김** 님 · 45세 · 주부",
+                },
+                {
+                  title: "간편하게 해결했어요",
+                  highlight: "급한 생활자금이",
+                  content: " 필요했는데, 복잡한 절차 없이 빠르게 받았습니다.",
+                  meta: "이** 님 · 37세 · 무직",
+                },
+                {
+                  title: "다른 곳에서 안 됐는데",
+                  highlight: "여러 번 거절당한",
+                  content: " 뒤 여기서 가능하다고 해서 놀랐습니다.",
+                  meta: "박** 님 · 38세 · 직장인",
+                },
+                {
+                  title: "속도가 빠르네요",
+                  highlight: "오전에 신청하고",
+                  content: " 오후에 입금까지 완료. 정말 빨랐습니다.",
+                  meta: "최** 님 · 54세 · 사업자",
+                },
+              ].map((r) => (
+                <div key={r.title} className="border border-gray-200 rounded-lg p-5">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">{r.title}</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    <span style={{ color: PURPLE }}>{r.highlight}</span>
+                    {r.content}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-3">{r.meta}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -460,18 +486,16 @@ export function Home() {
       </main>
 
       <Footer />
-      
-      {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button 
-          size="lg" 
-          className="rounded-full shadow-xl bg-[#FAE100] text-[#3C1E1E] hover:bg-[#F4D700] h-14 px-6 gap-2"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6" fill="#3C1E1E">
-            <path d="M12 2C6.48 2 2 5.92 2 10.76c0 3.07 1.73 5.77 4.35 7.38-.19.7-.7 2.54-.8 2.93-.13.49.18.48.38.35.16-.1 2.05-1.39 2.88-1.96.38.05.77.08 1.19.08 5.52 0 10-3.92 10-8.78C20 5.92 17.52 2 12 2zm-2.5 11.5L8 11.5l-1.5 2H5l2.5-4L6 7h1.5l1 2L10 7h1.5L9 11l1.5 2.5h-1zm5.5 0h-1.5v-5H12v5h-1V8.5h4V9h-1.5v4.5z"/>
+
+      {/* KakaoTalk Float */}
+      <div className="fixed bottom-5 right-5 z-50">
+        <button className="flex items-center gap-2 rounded-full shadow-lg px-4 py-2.5 text-sm font-bold" style={{ background: "#FAE100", color: "#3C1E1E" }}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-6 h-6">
+            <path fill="#3C1E1E" d="M255.5 48C132.6 48 32 135.6 32 245.5c0 69.6 39.8 130.8 100.2 168.1-3.8 14.2-13.9 51.4-15.9 59.4-2.5 9.8 3.6 9.7 7.6 7.1 3.2-2.1 51.1-34.5 71.8-48.5 19.1 3.5 39 5.4 59.8 5.4 122.9 0 223.5-87.6 223.5-197.5C480 135.6 378.4 48 255.5 48z"/>
+            <path fill="#FAE100" d="M173 285l18-56h-14l-12 38-12-38h-14l18 56zm72-56h-44v56h14v-20h20v-12h-20v-12h30zm28 0h-14v56h14zm54 0h-14l-22 36v-36h-14v56h14l22-36v36h14z"/>
           </svg>
-          <span className="font-bold text-base">카카오톡 상담</span>
-        </Button>
+          카카오톡 상담
+        </button>
       </div>
     </div>
   );
