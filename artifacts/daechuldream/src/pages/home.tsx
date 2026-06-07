@@ -467,7 +467,9 @@ export function Home() {
           size="lg" 
           className="rounded-full shadow-xl bg-[#FAE100] text-[#3C1E1E] hover:bg-[#F4D700] h-14 px-6 gap-2"
         >
-          <div className="w-6 h-6 bg-[#3C1E1E] rounded text-[#FAE100] flex items-center justify-center font-bold text-xs">K</div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6" fill="#3C1E1E">
+            <path d="M12 2C6.48 2 2 5.92 2 10.76c0 3.07 1.73 5.77 4.35 7.38-.19.7-.7 2.54-.8 2.93-.13.49.18.48.38.35.16-.1 2.05-1.39 2.88-1.96.38.05.77.08 1.19.08 5.52 0 10-3.92 10-8.78C20 5.92 17.52 2 12 2zm-2.5 11.5L8 11.5l-1.5 2H5l2.5-4L6 7h1.5l1 2L10 7h1.5L9 11l1.5 2.5h-1zm5.5 0h-1.5v-5H12v5h-1V8.5h4V9h-1.5v4.5z"/>
+          </svg>
           <span className="font-bold text-base">카카오톡 상담</span>
         </Button>
       </div>
