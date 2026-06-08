@@ -17,13 +17,13 @@ export function Footer() {
       <footer className="bg-[#1c1c1e] text-gray-400 py-8">
         <div className="max-w-5xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6">
           <div className="text-xs leading-relaxed space-y-1.5" style={{ fontWeight: 500 }}>
-            <p>회사명 : 대출드림 (주식회사 대출드림대부) / 대부중개등록번호 : 2024-금강원-2687(대부업)</p>
-            <p>사업자번호 : 637-88-03205 / 대표자 : 최병환</p>
-            <p>주소 : 경기도 성남시 성남대로194번길 72, 8이오 (다산동) / 전화번호 : 0504-8721-0804</p>
-            <p>대부중개업등록번호 : 2024-금강원-2687(대부업)</p>
+            <p>회사명 : 우주캐피탈대부 / 대부업등록번호 : 2023-충북청주-0011 (대부중개업)</p>
+            <p>사업자번호 : 738-95-01643 / 대표자 : 강윤희, 정충헌</p>
+            <p>주소 : 충청북도 청주시 청원구 내덕동 788-115 / 전화번호 : 010-5807-7888</p>
+            <p>대부중개업등록번호 : 2023-충북청주-0011 (대부중개업)</p>
           </div>
           <div className="w-full md:w-auto flex-shrink-0">
-            <a href="tel:050487210804">
+            <a href="tel:01058077888">
               <button className="w-full md:w-auto flex items-center justify-center gap-2 bg-[#1a73e8] text-white text-sm font-semibold px-5 py-2.5 rounded-md hover:bg-[#1557b0] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
