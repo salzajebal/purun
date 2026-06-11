@@ -14,7 +14,7 @@ export function Footer() {
       <footer className="bg-[#1c1c1e] text-gray-400 py-8">
         <div className="max-w-5xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6">
           <div className="text-xs leading-relaxed space-y-1.5" style={{ fontWeight: 500 }}>
-            <p>회사명 : 우주캐피탈대부 / 대표자 : 강윤희, 정충헌</p>
+            <p>회사명 : 우주캐피탈대부 / 대표자 : 강윤희</p>
             <p>사업자번호 : 738-95-01643</p>
             <p>대부중개업등록번호 : 2023-충북청주-0011 (대부중개업)</p>
             <p>주소 : 충청북도 청주시 청원구 내덕동 788-115</p>
