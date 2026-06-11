@@ -16,6 +16,8 @@ tags:
     description: Admin operations
   - name: telegram
     description: Telegram bot settings
+  - name: settings
+    description: Site settings
 paths:
   /healthz:
     get:
@@ -154,6 +156,65 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AdminStats"
+        "401":
+          description: Unauthorized
+
+  /settings/kakao-link:
+    get:
+      operationId: getKakaoLink
+      tags: [settings]
+      summary: Get KakaoTalk open chat link (public)
+      responses:
+        "200":
+          description: KakaoTalk link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KakaoLinkResult"
+
+  /admin/settings:
+    get:
+      operationId: getAdminSettings
+      tags: [settings]
+      summary: Get site settings (admin)
+      parameters:
+        - name: x-admin-token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Site settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+        "401":
+          description: Unauthorized
+    put:
+      operationId: updateAdminSettings
+      tags: [settings]
+      summary: Update site settings (admin)
+      parameters:
+        - name: x-admin-token
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteSettingsInput"
+      responses:
+        "200":
+          description: Settings updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
         "401":
           description: Unauthorized
 
@@ -441,4 +502,24 @@ components:
         success:
           type: boolean
         message:
+          type: string
+
+    KakaoLinkResult:
+      type: object
+      required: [kakao_link]
+      properties:
+        kakao_link:
+          type: ["string", "null"]
+
+    SiteSettings:
+      type: object
+      required: [kakao_link]
+      properties:
+        kakao_link:
+          type: ["string", "null"]
+
+    SiteSettingsInput:
+      type: object
+      properties:
+        kakao_link:
           type: string

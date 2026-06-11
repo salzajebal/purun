@@ -29,6 +29,9 @@ import type {
   DeleteResult,
   GetAdminApplicationsParams,
   HealthStatus,
+  KakaoLinkResult,
+  SiteSettings,
+  SiteSettingsInput,
   TelegramDiscoverInput,
   TelegramDiscoverResult,
   TelegramSettings,
@@ -498,6 +501,231 @@ export function useGetAdminStats<TData = Awaited<ReturnType<typeof getAdminStats
 
 
 
+
+export const getGetKakaoLinkUrl = () => {
+
+
+
+
+  return `/api/settings/kakao-link`
+}
+
+/**
+ * @summary Get KakaoTalk open chat link (public)
+ */
+export const getKakaoLink = async ( options?: RequestInit): Promise<KakaoLinkResult> => {
+
+  return customFetch<KakaoLinkResult>(getGetKakaoLinkUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetKakaoLinkQueryKey = () => {
+    return [
+    `/api/settings/kakao-link`
+    ] as const;
+    }
+
+
+export const getGetKakaoLinkQueryOptions = <TData = Awaited<ReturnType<typeof getKakaoLink>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getKakaoLink>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetKakaoLinkQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKakaoLink>>> = ({ signal }) => getKakaoLink({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKakaoLink>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetKakaoLinkQueryResult = NonNullable<Awaited<ReturnType<typeof getKakaoLink>>>
+export type GetKakaoLinkQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get KakaoTalk open chat link (public)
+ */
+
+export function useGetKakaoLink<TData = Awaited<ReturnType<typeof getKakaoLink>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getKakaoLink>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetKakaoLinkQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetAdminSettingsUrl = () => {
+
+
+
+
+  return `/api/admin/settings`
+}
+
+/**
+ * @summary Get site settings (admin)
+ */
+export const getAdminSettings = async ( options?: RequestInit): Promise<SiteSettings> => {
+
+  return customFetch<SiteSettings>(getGetAdminSettingsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAdminSettingsQueryKey = () => {
+    return [
+    `/api/admin/settings`
+    ] as const;
+    }
+
+
+export const getGetAdminSettingsQueryOptions = <TData = Awaited<ReturnType<typeof getAdminSettings>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAdminSettings>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAdminSettingsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAdminSettings>>> = ({ signal }) => getAdminSettings({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAdminSettings>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAdminSettingsQueryResult = NonNullable<Awaited<ReturnType<typeof getAdminSettings>>>
+export type GetAdminSettingsQueryError = ErrorType<void>
+
+
+/**
+ * @summary Get site settings (admin)
+ */
+
+export function useGetAdminSettings<TData = Awaited<ReturnType<typeof getAdminSettings>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAdminSettings>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAdminSettingsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getUpdateAdminSettingsUrl = () => {
+
+
+
+
+  return `/api/admin/settings`
+}
+
+/**
+ * @summary Update site settings (admin)
+ */
+export const updateAdminSettings = async (siteSettingsInput: SiteSettingsInput, options?: RequestInit): Promise<SiteSettings> => {
+
+  return customFetch<SiteSettings>(getUpdateAdminSettingsUrl(),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      siteSettingsInput,)
+  }
+);}
+
+
+
+
+export const getUpdateAdminSettingsMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdminSettings>>, TError,{data: BodyType<SiteSettingsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateAdminSettings>>, TError,{data: BodyType<SiteSettingsInput>}, TContext> => {
+
+const mutationKey = ['updateAdminSettings'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAdminSettings>>, {data: BodyType<SiteSettingsInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateAdminSettings(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateAdminSettingsMutationResult = NonNullable<Awaited<ReturnType<typeof updateAdminSettings>>>
+    export type UpdateAdminSettingsMutationBody = BodyType<SiteSettingsInput>
+    export type UpdateAdminSettingsMutationError = ErrorType<void>
+
+    /**
+ * @summary Update site settings (admin)
+ */
+export const useUpdateAdminSettings = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdminSettings>>, TError,{data: BodyType<SiteSettingsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateAdminSettings>>,
+        TError,
+        {data: BodyType<SiteSettingsInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateAdminSettingsMutationOptions(options));
+    }
 
 export const getGetTelegramSettingsUrl = () => {
 

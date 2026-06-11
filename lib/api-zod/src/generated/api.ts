@@ -131,6 +131,42 @@ export const GetAdminStatsResponse = zod.object({
 
 
 /**
+ * @summary Get KakaoTalk open chat link (public)
+ */
+export const GetKakaoLinkResponse = zod.object({
+  "kakao_link": zod.string().nullable()
+})
+
+
+/**
+ * @summary Get site settings (admin)
+ */
+export const GetAdminSettingsHeader = zod.object({
+  "x-admin-token": zod.string()
+})
+
+export const GetAdminSettingsResponse = zod.object({
+  "kakao_link": zod.string().nullable()
+})
+
+
+/**
+ * @summary Update site settings (admin)
+ */
+export const UpdateAdminSettingsHeader = zod.object({
+  "x-admin-token": zod.string()
+})
+
+export const UpdateAdminSettingsBody = zod.object({
+  "kakao_link": zod.string().optional()
+})
+
+export const UpdateAdminSettingsResponse = zod.object({
+  "kakao_link": zod.string().nullable()
+})
+
+
+/**
  * @summary Get Telegram bot settings
  */
 export const GetTelegramSettingsHeader = zod.object({

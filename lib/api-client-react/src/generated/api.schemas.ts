@@ -110,6 +110,20 @@ export interface TelegramTestResult {
   message: string;
 }
 
+export interface KakaoLinkResult {
+  /** @nullable */
+  kakao_link: string | null;
+}
+
+export interface SiteSettings {
+  /** @nullable */
+  kakao_link: string | null;
+}
+
+export interface SiteSettingsInput {
+  kakao_link?: string;
+}
+
 export type GetAdminApplicationsParams = {
 page?: number;
 limit?: number;

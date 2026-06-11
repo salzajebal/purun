@@ -7,25 +7,32 @@ import {
   useUpdateTelegramSettings,
   useDiscoverTelegramChats,
   useTestTelegramNotification,
-  getGetTelegramSettingsQueryKey
+  getGetTelegramSettingsQueryKey,
+  useGetAdminSettings,
+  useUpdateAdminSettings,
+  getGetAdminSettingsQueryKey,
 } from "@workspace/api-client-react";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BellRing, Send, Search } from "lucide-react";
+import { BellRing, Send, Search, MessageCircle } from "lucide-react";
 
-const formSchema = z.object({
+const telegramFormSchema = z.object({
   enabled: z.boolean().default(false),
   bot_token: z.string().optional(),
   chat_id: z.string().optional(),
   chat_name: z.string().optional(),
+});
+
+const kakaoFormSchema = z.object({
+  kakao_link: z.string().optional(),
 });
 
 export function AdminSettings() {
@@ -36,7 +43,7 @@ export function AdminSettings() {
   
   const headers = { "x-admin-token": token || "" };
 
-  const { data: settings, isLoading } = useGetTelegramSettings({
+  const { data: telegramSettings, isLoading: telegramLoading } = useGetTelegramSettings({
     query: {
       enabled: !!token,
       queryKey: getGetTelegramSettingsQueryKey(),
@@ -44,8 +51,16 @@ export function AdminSettings() {
     request: { headers }
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { data: siteSettings, isLoading: siteLoading } = useGetAdminSettings({
+    query: {
+      enabled: !!token,
+      queryKey: getGetAdminSettingsQueryKey(),
+    },
+    request: { headers }
+  });
+
+  const telegramForm = useForm<z.infer<typeof telegramFormSchema>>({
+    resolver: zodResolver(telegramFormSchema),
     defaultValues: {
       enabled: false,
       bot_token: "",
@@ -54,21 +69,32 @@ export function AdminSettings() {
     },
   });
 
+  const kakaoForm = useForm<z.infer<typeof kakaoFormSchema>>({
+    resolver: zodResolver(kakaoFormSchema),
+    defaultValues: { kakao_link: "" },
+  });
+
   useEffect(() => {
-    if (settings) {
-      form.reset({
-        enabled: settings.enabled,
-        bot_token: settings.bot_token || "",
-        chat_id: settings.chat_id || "",
-        chat_name: settings.chat_name || "",
+    if (telegramSettings) {
+      telegramForm.reset({
+        enabled: telegramSettings.enabled,
+        bot_token: telegramSettings.bot_token || "",
+        chat_id: telegramSettings.chat_id || "",
+        chat_name: telegramSettings.chat_name || "",
       });
-      if (settings.chat_id && settings.chat_name) {
-        setChats([{ id: settings.chat_id, name: settings.chat_name, type: "saved" }]);
+      if (telegramSettings.chat_id && telegramSettings.chat_name) {
+        setChats([{ id: telegramSettings.chat_id, name: telegramSettings.chat_name, type: "saved" }]);
       }
     }
-  }, [settings, form]);
+  }, [telegramSettings, telegramForm]);
 
-  const updateMutation = useUpdateTelegramSettings({
+  useEffect(() => {
+    if (siteSettings) {
+      kakaoForm.reset({ kakao_link: siteSettings.kakao_link || "" });
+    }
+  }, [siteSettings, kakaoForm]);
+
+  const updateTelegramMutation = useUpdateTelegramSettings({
     request: { headers },
     mutation: {
       onSuccess: () => {
@@ -77,6 +103,19 @@ export function AdminSettings() {
       },
       onError: () => {
         toast({ variant: "destructive", title: "저장 실패", description: "설정 저장에 실패했습니다." });
+      }
+    }
+  });
+
+  const updateSiteSettingsMutation = useUpdateAdminSettings({
+    request: { headers },
+    mutation: {
+      onSuccess: () => {
+        toast({ title: "저장됨", description: "카카오톡 링크가 저장되었습니다." });
+        queryClient.invalidateQueries({ queryKey: getGetAdminSettingsQueryKey() });
+      },
+      onError: () => {
+        toast({ variant: "destructive", title: "저장 실패", description: "링크 저장에 실패했습니다." });
       }
     }
   });
@@ -114,19 +153,20 @@ export function AdminSettings() {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // If chat_id changed, find the name from our chats list
+  const onTelegramSubmit = (values: z.infer<typeof telegramFormSchema>) => {
     if (values.chat_id && chats.length > 0) {
       const selectedChat = chats.find(c => c.id === values.chat_id);
-      if (selectedChat) {
-        values.chat_name = selectedChat.name;
-      }
+      if (selectedChat) values.chat_name = selectedChat.name;
     }
-    updateMutation.mutate({ data: values });
+    updateTelegramMutation.mutate({ data: values });
+  };
+
+  const onKakaoSubmit = (values: z.infer<typeof kakaoFormSchema>) => {
+    updateSiteSettingsMutation.mutate({ data: { kakao_link: values.kakao_link || "" } });
   };
 
   const onDiscover = () => {
-    const bot_token = form.getValues("bot_token");
+    const bot_token = telegramForm.getValues("bot_token");
     if (!bot_token) {
       toast({ variant: "destructive", title: "토큰 필요", description: "봇 토큰을 먼저 입력해주세요." });
       return;
@@ -138,10 +178,11 @@ export function AdminSettings() {
     testMutation.mutate(undefined as unknown as void);
   };
 
-  if (isLoading) {
+  if (telegramLoading || siteLoading) {
     return (
       <div className="space-y-6 max-w-3xl">
         <h1 className="text-2xl font-bold tracking-tight">설정</h1>
+        <Card><CardContent className="p-6"><Skeleton className="h-32 w-full" /></CardContent></Card>
         <Card><CardContent className="p-6"><Skeleton className="h-64 w-full" /></CardContent></Card>
       </div>
     );
@@ -154,6 +195,55 @@ export function AdminSettings() {
         <p className="text-muted-foreground">시스템 설정을 관리합니다.</p>
       </div>
 
+      {/* KakaoTalk Link Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-yellow-500" />
+            카카오톡 오픈채팅 링크
+          </CardTitle>
+          <CardDescription>
+            메인 화면의 카카오톡 상담 버튼에 연결될 오픈채팅 링크를 설정합니다.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...kakaoForm}>
+            <form onSubmit={kakaoForm.handleSubmit(onKakaoSubmit)} className="space-y-4">
+              <FormField
+                control={kakaoForm.control}
+                name="kakao_link"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>오픈채팅 URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://open.kakao.com/o/xxxxxxx"
+                        {...field}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      카카오톡 오픈채팅방 링크를 붙여넣으세요. 비워두면 버튼을 눌러도 이동하지 않습니다.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-end pt-2 border-t">
+                <Button
+                  type="submit"
+                  disabled={updateSiteSettingsMutation.isPending}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  {updateSiteSettingsMutation.isPending ? "저장 중..." : "저장"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+
+      {/* Telegram Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -165,10 +255,10 @@ export function AdminSettings() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Form {...telegramForm}>
+            <form onSubmit={telegramForm.handleSubmit(onTelegramSubmit)} className="space-y-6">
               <FormField
-                control={form.control}
+                control={telegramForm.control}
                 name="enabled"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
@@ -188,10 +278,10 @@ export function AdminSettings() {
                 )}
               />
 
-              {form.watch("enabled") && (
+              {telegramForm.watch("enabled") && (
                 <div className="space-y-4 animate-in fade-in slide-in-from-top-4 duration-300">
                   <FormField
-                    control={form.control}
+                    control={telegramForm.control}
                     name="bot_token"
                     render={({ field }) => (
                       <FormItem>
@@ -218,7 +308,7 @@ export function AdminSettings() {
                   />
 
                   <FormField
-                    control={form.control}
+                    control={telegramForm.control}
                     name="chat_id"
                     render={({ field }) => (
                       <FormItem>
@@ -256,7 +346,7 @@ export function AdminSettings() {
                   type="button" 
                   variant="outline" 
                   onClick={onTest}
-                  disabled={!form.watch("enabled") || testMutation.isPending}
+                  disabled={!telegramForm.watch("enabled") || testMutation.isPending}
                 >
                   <Send className="h-4 w-4 mr-2" />
                   테스트 알림 보내기
@@ -264,10 +354,10 @@ export function AdminSettings() {
                 
                 <Button 
                   type="submit" 
-                  disabled={updateMutation.isPending}
+                  disabled={updateTelegramMutation.isPending}
                   className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
-                  {updateMutation.isPending ? "저장 중..." : "설정 저장"}
+                  {updateTelegramMutation.isPending ? "저장 중..." : "설정 저장"}
                 </Button>
               </div>
             </form>
