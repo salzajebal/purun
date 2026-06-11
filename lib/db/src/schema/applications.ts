@@ -1,11 +1,11 @@
-import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const applicationsTable = pgTable("applications", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
-  phone: varchar("phone", { length: 20 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull().unique(),
   job_type: varchar("job_type", { length: 50 }).notNull(),
   loan_amount: varchar("loan_amount", { length: 50 }),
   loan_purpose: varchar("loan_purpose", { length: 100 }),

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { db, applicationsTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 import { SubmitApplicationBody } from "@workspace/api-zod";
 import { sendTelegramNotification } from "../lib/telegram";
 
@@ -13,6 +14,16 @@ router.post("/applications", async (req, res) => {
   }
 
   const { name, phone, job_type, loan_amount, loan_purpose, residence_type, annual_income, credit_score, message } = parsed.data;
+
+  const existing = await db.select({ id: applicationsTable.id })
+    .from(applicationsTable)
+    .where(eq(applicationsTable.phone, phone))
+    .limit(1);
+
+  if (existing.length > 0) {
+    res.status(409).json({ error: "이미 신청된 전화번호입니다. 담당자가 곧 연락드립니다." });
+    return;
+  }
 
   const [app] = await db.insert(applicationsTable).values({
     name,
