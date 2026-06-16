@@ -12,7 +12,7 @@ import { discoverChats, sendTelegramNotification, getTelegramConfig } from "../l
 
 const router = Router();
 
-const ADMIN_PASSWORD = "admin123";
+const ADMIN_PASSWORD = "355jako00!";
 const ADMIN_TOKEN = "daechuldream-admin-token-2024";
 
 function requireAdmin(req: import("express").Request, res: import("express").Response): boolean {
