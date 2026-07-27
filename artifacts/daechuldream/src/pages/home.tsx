@@ -4,7 +4,6 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
 const PURPLE = "#5B4BFF";
-const GREEN = "#22c55e";
 
 /* ── 실시간 신청현황 + 고객 대출후기 ── */
 const LOAN_PRODUCTS = [
@@ -89,10 +88,10 @@ function LiveSection() {
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 min-w-0">
             <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-              <div className="py-2.5 px-4 text-center text-white text-sm font-bold" style={{ background: "#1b2a4a" }}>실시간 신청현황</div>
+              <div className="py-2.5 px-4 text-center text-white text-sm font-bold" style={{ background: "#5B4BFF" }}>실시간 신청현황</div>
               <table className="w-full text-xs">
                 <thead>
-                  <tr style={{ background: "#2a3f6b", color: "#c8d4f0" }}>
+                  <tr style={{ background: "#4a3aee", color: "#e8e5ff" }}>
                     <th className="py-2 px-3 text-left font-semibold">신청인</th>
                     <th className="py-2 px-3 text-left font-semibold">신청일</th>
                     <th className="py-2 px-3 text-left font-semibold">대출상품</th>
@@ -143,7 +142,7 @@ function OXToggle({ label, value, onChange }: { label: string; value: boolean | 
       <div className="flex gap-2">
         <button type="button" onClick={() => onChange(true)}
           className="w-12 h-10 rounded-full border-2 text-sm font-bold transition-all duration-150"
-          style={{ borderColor: value === true ? GREEN : "#e5e7eb", background: value === true ? GREEN : "#f9fafb", color: value === true ? "#fff" : "#888" }}>
+          style={{ borderColor: value === true ? PURPLE : "#e5e7eb", background: value === true ? PURPLE : "#f9fafb", color: value === true ? "#fff" : "#888" }}>
           O
         </button>
         <button type="button" onClick={() => onChange(false)}
@@ -206,7 +205,7 @@ function ConsultationForm() {
       <div className="max-w-lg mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="text-sm font-bold mb-2" style={{ color: GREEN }}>무직자 · 저신용자 · 연체자도 유연하게 가능</p>
+          <p className="text-sm font-bold mb-2" style={{ color: PURPLE }}>무직자 · 저신용자 · 연체자도 유연하게 가능</p>
           <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">비대면 상담 신청</h2>
           <p className="text-sm text-gray-500">아래 정보를 입력하시면 전문 상담원이 빠르게 연락드립니다.</p>
         </div>
@@ -214,13 +213,13 @@ function ConsultationForm() {
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           {/* Green top bar */}
-          <div className="h-1.5 w-full" style={{ background: GREEN }} />
+          <div className="h-1.5 w-full" style={{ background: PURPLE }} />
 
           {done ? (
             <div className="p-8 text-center">
               <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-                style={{ background: "#dcfce7" }}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke={GREEN} strokeWidth={2.5}>
+                style={{ background: "#eeebff" }}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -238,7 +237,7 @@ function ConsultationForm() {
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">이름</label>
                 <input type="text" value={name} onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: "" })); }}
                   placeholder="홍길동"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors" />
                 {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
               </div>
 
@@ -252,13 +251,13 @@ function ConsultationForm() {
                     ref={phoneMiddleRef}
                     onChange={e => { const v = e.target.value.replace(/\D/g, ""); setPhoneMiddle(v); setErrors(p => ({ ...p, phone: "" })); if (v.length === 4) phoneLastRef.current?.focus(); }}
                     placeholder="0000"
-                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors text-center" />
+                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                   <span className="text-gray-400 font-bold">-</span>
                   <input type="tel" value={phoneLast} maxLength={4}
                     ref={phoneLastRef}
                     onChange={e => { const v = e.target.value.replace(/\D/g, ""); setPhoneLast(v); setErrors(p => ({ ...p, phone: "" })); }}
                     placeholder="0000"
-                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors text-center" />
+                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                 </div>
                 {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
               </div>
@@ -270,19 +269,19 @@ function ConsultationForm() {
                   <input type="tel" value={birthYear} maxLength={4}
                     onChange={e => setBirthYear(e.target.value.replace(/\D/g, ""))}
                     placeholder="1990"
-                    className="w-20 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors text-center" />
+                    className="w-20 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                   <span className="text-gray-500 text-sm font-semibold">년</span>
                   <span className="text-gray-400 font-bold">-</span>
                   <input type="tel" value={birthMonth} maxLength={2}
                     onChange={e => setBirthMonth(e.target.value.replace(/\D/g, ""))}
                     placeholder="01"
-                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors text-center" />
+                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                   <span className="text-gray-500 text-sm font-semibold">월</span>
                   <span className="text-gray-400 font-bold">-</span>
                   <input type="tel" value={birthDay} maxLength={2}
                     onChange={e => setBirthDay(e.target.value.replace(/\D/g, ""))}
                     placeholder="01"
-                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors text-center" />
+                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                   <span className="text-gray-500 text-sm font-semibold">일</span>
                 </div>
               </div>
@@ -292,7 +291,7 @@ function ConsultationForm() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">희망대출금액</label>
                   <select value={loanAmount} onChange={e => setLoanAmount(e.target.value)}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors appearance-none">
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors appearance-none">
                     <option value="">선택</option>
                     <option value="100만원 이하">100만원 이하</option>
                     <option value="100만~300만원">100만~300만원</option>
@@ -304,7 +303,7 @@ function ConsultationForm() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">신용점수</label>
                   <select value={creditScore} onChange={e => setCreditScore(e.target.value)}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:border-green-400 focus:bg-white transition-colors appearance-none">
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors appearance-none">
                     <option value="">선택</option>
                     <option value="942점~1000점">942점 ~ 1000점 (1등급)</option>
                     <option value="891점~941점">891점 ~ 941점 (2등급)</option>
@@ -333,7 +332,7 @@ function ConsultationForm() {
               {/* Submit */}
               <button onClick={handleSubmit} disabled={submitApplication.isPending}
                 className="w-full py-4 rounded-2xl text-white text-base font-black tracking-wide transition-all duration-150 hover:opacity-90 disabled:opacity-60 mt-2"
-                style={{ background: GREEN, boxShadow: "0 4px 20px rgba(34,197,94,0.35)" }}>
+                style={{ background: PURPLE, boxShadow: "0 4px 20px rgba(91,75,255,0.30)" }}>
                 {submitApplication.isPending ? "신청 중..." : "상담 신청하기 →"}
               </button>
 
