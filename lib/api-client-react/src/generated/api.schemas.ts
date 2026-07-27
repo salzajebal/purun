@@ -54,6 +54,7 @@ export interface DeleteResult {
 }
 
 export interface AdminLoginInput {
+  username: string;
   password: string;
 }
 

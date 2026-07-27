@@ -32,7 +32,7 @@ export function Footer() {
           </div>
         </div>
         <div className="max-w-5xl mx-auto px-4 md:px-6 mt-6 border-t border-gray-700 pt-4">
-          <p className="text-xs text-center text-gray-500">© 2026 파워풀론</p>
+          <p className="text-xs text-center text-gray-500">© 2026 푸른파이낸셜</p>
         </div>
       </footer>
     </>

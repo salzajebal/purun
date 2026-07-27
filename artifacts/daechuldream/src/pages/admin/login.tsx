@@ -13,6 +13,7 @@ import { Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
+  username: z.string().min(1, "아이디를 입력해주세요."),
   password: z.string().min(1, "비밀번호를 입력해주세요."),
 });
 
@@ -24,6 +25,7 @@ export function AdminLogin() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: "",
       password: "",
     },
   });
@@ -66,11 +68,24 @@ export function AdminLogin() {
             <Lock className="h-6 w-6 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight text-primary">관리자 로그인</CardTitle>
-          <CardDescription>파워풀론 관리자 시스템에 접속합니다</CardDescription>
+          <CardDescription>푸른파이낸셜 관리자 시스템에 접속합니다</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>아이디</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="아이디를 입력하세요" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="password"

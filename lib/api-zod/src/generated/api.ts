@@ -37,6 +37,7 @@ export const SubmitApplicationBody = zod.object({
  * @summary Admin login
  */
 export const AdminLoginBody = zod.object({
+  "username": zod.string(),
   "password": zod.string()
 })
 

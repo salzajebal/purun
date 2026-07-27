@@ -12,6 +12,7 @@ import { discoverChats, sendTelegramNotification, getTelegramConfig } from "../l
 
 const router = Router();
 
+const ADMIN_USERNAME = "admin";
 const ADMIN_PASSWORD = "355jako00!";
 const ADMIN_TOKEN = "daechuldream-admin-token-2024";
 
@@ -30,8 +31,8 @@ router.post("/admin/login", (req, res) => {
     res.status(400).json({ error: "Invalid input" });
     return;
   }
-  if (parsed.data.password !== ADMIN_PASSWORD) {
-    res.status(401).json({ error: "Invalid password" });
+  if (parsed.data.username !== ADMIN_USERNAME || parsed.data.password !== ADMIN_PASSWORD) {
+    res.status(401).json({ error: "Invalid credentials" });
     return;
   }
   res.json({ success: true, token: ADMIN_TOKEN });
