@@ -408,16 +408,11 @@ export function Home() {
                   </div>
                 </div>
 
-                <div className="flex gap-3 justify-center lg:justify-start">
+                <div className="flex justify-center lg:justify-start">
                   <a href="#apply">
                     <button className="px-8 py-3.5 rounded-xl text-white text-sm font-bold hover:opacity-90 transition-all"
                       style={{ background: PURPLE, boxShadow: "0 8px 24px rgba(91,75,255,0.32)" }}>
                       무료 한도조회 →
-                    </button>
-                  </a>
-                  <a href="tel:01024513130">
-                    <button className="px-6 py-3.5 rounded-xl text-sm font-bold border-2 bg-white hover:bg-gray-50 transition-colors" style={{ borderColor: PURPLE, color: PURPLE }}>
-                      📞 전화 상담
                     </button>
                   </a>
                 </div>
