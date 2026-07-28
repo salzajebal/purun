@@ -211,9 +211,9 @@ function ConsultationForm() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-lg">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden w-full">
           {/* Top bar */}
-          <div className="h-1.5 w-full rounded-t-2xl" style={{ background: PURPLE }} />
+          <div className="h-1.5 w-full" style={{ background: PURPLE }} />
 
           {done ? (
             <div className="p-8 text-center">
@@ -244,20 +244,20 @@ function ConsultationForm() {
               {/* 연락처 */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">연락처</label>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-500 bg-gray-50 text-center font-semibold select-none">010</div>
-                  <span className="text-gray-400 font-bold">-</span>
+                <div className="flex items-center gap-1.5 w-full">
+                  <div className="w-14 flex-shrink-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-500 bg-gray-50 text-center font-semibold select-none">010</div>
+                  <span className="text-gray-400 font-bold flex-shrink-0">-</span>
                   <input type="tel" value={phoneMiddle} maxLength={4}
                     ref={phoneMiddleRef}
                     onChange={e => { const v = e.target.value.replace(/\D/g, ""); setPhoneMiddle(v); setErrors(p => ({ ...p, phone: "" })); if (v.length === 4) phoneLastRef.current?.focus(); }}
                     placeholder="0000"
-                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
-                  <span className="text-gray-400 font-bold">-</span>
+                    className="flex-1 min-w-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
+                  <span className="text-gray-400 font-bold flex-shrink-0">-</span>
                   <input type="tel" value={phoneLast} maxLength={4}
                     ref={phoneLastRef}
                     onChange={e => { const v = e.target.value.replace(/\D/g, ""); setPhoneLast(v); setErrors(p => ({ ...p, phone: "" })); }}
                     placeholder="0000"
-                    className="flex-1 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
+                    className="flex-1 min-w-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
                 </div>
                 {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
               </div>
@@ -265,24 +265,24 @@ function ConsultationForm() {
               {/* 생년월일 */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">생년월일</label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 w-full">
                   <input type="tel" value={birthYear} maxLength={4}
                     onChange={e => setBirthYear(e.target.value.replace(/\D/g, ""))}
                     placeholder="1990"
-                    className="w-20 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
-                  <span className="text-gray-500 text-sm font-semibold">년</span>
-                  <span className="text-gray-400 font-bold">-</span>
+                    className="flex-[2] min-w-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
+                  <span className="text-gray-500 text-sm font-semibold flex-shrink-0">년</span>
+                  <span className="text-gray-400 font-bold flex-shrink-0">-</span>
                   <input type="tel" value={birthMonth} maxLength={2}
                     onChange={e => setBirthMonth(e.target.value.replace(/\D/g, ""))}
                     placeholder="01"
-                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
-                  <span className="text-gray-500 text-sm font-semibold">월</span>
-                  <span className="text-gray-400 font-bold">-</span>
+                    className="flex-1 min-w-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
+                  <span className="text-gray-500 text-sm font-semibold flex-shrink-0">월</span>
+                  <span className="text-gray-400 font-bold flex-shrink-0">-</span>
                   <input type="tel" value={birthDay} maxLength={2}
                     onChange={e => setBirthDay(e.target.value.replace(/\D/g, ""))}
                     placeholder="01"
-                    className="w-14 border border-gray-200 rounded-xl px-3 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
-                  <span className="text-gray-500 text-sm font-semibold">일</span>
+                    className="flex-1 min-w-0 border border-gray-200 rounded-xl px-2 py-3 text-sm text-gray-800 bg-gray-50 focus:outline-none focus:border-purple-400 focus:bg-white transition-colors text-center" />
+                  <span className="text-gray-500 text-sm font-semibold flex-shrink-0">일</span>
                 </div>
               </div>
 
