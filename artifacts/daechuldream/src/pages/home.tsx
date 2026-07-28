@@ -211,9 +211,9 @@ function ConsultationForm() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          {/* Green top bar */}
-          <div className="h-1.5 w-full" style={{ background: PURPLE }} />
+        <div className="bg-white rounded-2xl shadow-lg">
+          {/* Top bar */}
+          <div className="h-1.5 w-full rounded-t-2xl" style={{ background: PURPLE }} />
 
           {done ? (
             <div className="p-8 text-center">
