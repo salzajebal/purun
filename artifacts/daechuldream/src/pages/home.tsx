@@ -201,8 +201,8 @@ function ConsultationForm() {
   };
 
   return (
-    <section id="apply" className="py-14 md:py-20" style={{ background: "#f8f9fa" }}>
-      <div className="max-w-lg mx-auto px-4">
+    <section id="apply" className="py-14 md:py-20 overflow-x-hidden" style={{ background: "#f8f9fa" }}>
+      <div className="max-w-lg mx-auto px-4 w-full">
         {/* Header */}
         <div className="text-center mb-8">
           <p className="text-sm font-bold mb-2" style={{ color: PURPLE }}>무직자 · 저신용자 · 연체자도 유연하게 가능</p>
