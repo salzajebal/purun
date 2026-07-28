@@ -357,42 +357,130 @@ export function Home() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="py-14 md:py-20 text-center" style={{ background: "#f3f3fb" }}>
-          <div className="max-w-2xl mx-auto px-4 md:px-6 space-y-5">
-            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium border" style={{ borderColor: PURPLE, color: PURPLE, background: "#eeebff" }}>
-              <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: PURPLE }} />
-              금융감독원 정식 등록
+        <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #edeaff 0%, #f3f3fb 60%, #e8e5ff 100%)", minHeight: 480 }}>
+          {/* Decorative blobs */}
+          <div className="absolute top-0 right-0 w-[520px] h-[520px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(91,75,255,0.13) 0%, transparent 70%)", transform: "translate(25%, -35%)" }} />
+          <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(91,75,255,0.08) 0%, transparent 70%)", transform: "translate(-30%, 35%)" }} />
+
+          <div className="relative max-w-5xl mx-auto px-4 md:px-6 py-14 md:py-20">
+            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+
+              {/* ── Left: Text ── */}
+              <div className="flex-1 space-y-5 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold border" style={{ borderColor: PURPLE, color: PURPLE, background: "#eeebff" }}>
+                  <span className="w-1.5 h-1.5 rounded-full inline-block animate-pulse" style={{ background: PURPLE }} />
+                  금융감독원 정식 등록
+                </div>
+
+                <h1 className="text-[34px] md:text-[52px] font-black leading-tight text-gray-900" style={{ letterSpacing: "-0.02em" }}>
+                  <span style={{ color: PURPLE }}>누구나 가능한</span><br />맞춤 대출 솔루션
+                </h1>
+
+                <p className="text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>
+                  직장인·사업자·주부·무직자 누구나<br />
+                  1분 만에 대출 가능 여부를 확인하세요
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {["✓ 무직자 가능", "✓ 연체자 가능", "✓ 저신용자 가능", "✓ 당일 입금"].map(tag => (
+                    <span key={tag} className="text-xs font-bold px-3 py-1.5 rounded-full bg-white border" style={{ borderColor: "#d1c9ff", color: PURPLE }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Stats */}
+                <div className="flex items-center gap-8 pt-1 justify-center lg:justify-start">
+                  <div>
+                    <p className="text-2xl font-black" style={{ color: PURPLE }}>5,000만</p>
+                    <p className="text-xs text-gray-500 mt-0.5 font-semibold">최대 한도</p>
+                  </div>
+                  <div className="w-px h-8 bg-gray-300" />
+                  <div>
+                    <p className="text-2xl font-black" style={{ color: PURPLE }}>6.9%~</p>
+                    <p className="text-xs text-gray-500 mt-0.5 font-semibold">최저 금리</p>
+                  </div>
+                  <div className="w-px h-8 bg-gray-300" />
+                  <div>
+                    <p className="text-2xl font-black" style={{ color: PURPLE }}>당일</p>
+                    <p className="text-xs text-gray-500 mt-0.5 font-semibold">입금</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 justify-center lg:justify-start">
+                  <a href="#apply">
+                    <button className="px-8 py-3.5 rounded-xl text-white text-sm font-bold hover:opacity-90 transition-all"
+                      style={{ background: PURPLE, boxShadow: "0 8px 24px rgba(91,75,255,0.32)" }}>
+                      무료 한도조회 →
+                    </button>
+                  </a>
+                  <a href="tel:01024513130">
+                    <button className="px-6 py-3.5 rounded-xl text-sm font-bold border-2 bg-white hover:bg-gray-50 transition-colors" style={{ borderColor: PURPLE, color: PURPLE }}>
+                      📞 전화 상담
+                    </button>
+                  </a>
+                </div>
+              </div>
+
+              {/* ── Right: Cards ── */}
+              <div className="flex-shrink-0 w-full lg:w-[300px] space-y-3">
+                {/* 승인 현황 카드 */}
+                <div className="bg-white rounded-2xl shadow-xl p-5 border border-gray-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#eeebff" }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-gray-400 font-medium">오늘 실시간 승인</p>
+                      <p className="text-sm font-black text-gray-900">대출 승인 현황</p>
+                    </div>
+                    <span className="text-xl font-black flex-shrink-0" style={{ color: PURPLE }}>247건</span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { label: "직장·사업자", pct: 88 },
+                      { label: "주부·무직자", pct: 74 },
+                      { label: "저신용·연체자", pct: 67 },
+                    ].map(item => (
+                      <div key={item.label}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-gray-600 font-semibold">{item.label}</span>
+                          <span className="font-black" style={{ color: PURPLE }}>{item.pct}%</span>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full rounded-full transition-all" style={{ width: `${item.pct}%`, background: `linear-gradient(90deg, ${PURPLE}, #8b7fff)` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 알림 카드 1 */}
+                <div className="bg-white rounded-xl shadow-md p-3.5 flex items-center gap-3 border border-gray-100">
+                  <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: "#e6f9f0" }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#00a651" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-black text-gray-900">이** 님 대출 승인 완료</p>
+                    <p className="text-xs text-gray-400 mt-0.5">1,500만원 · 방금 전</p>
+                  </div>
+                </div>
+
+                {/* 알림 카드 2 */}
+                <div className="bg-white rounded-xl shadow-md p-3.5 flex items-center gap-3 border border-gray-100">
+                  <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: "#eeebff" }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke={PURPLE} strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-black text-gray-900">선입금 0원 보장</p>
+                    <p className="text-xs text-gray-400 mt-0.5">금융감독원 정식 등록 업체</p>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <h1 className="text-[32px] md:text-5xl font-black leading-tight text-gray-900">
-              푸른파이낸셜<br />
-              <span style={{ color: PURPLE }}>누구나 가능한</span> 맞춤 대출
-            </h1>
-            <p className="text-sm text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>
-              직장인·사업자·주부·무직자 누구나<br />
-              1분 만에 대출 가능 여부를 확인하세요
-            </p>
-            <div className="flex items-center justify-center gap-10 pt-2">
-              <div>
-                <p className="text-2xl font-black" style={{ color: PURPLE }}>5,000만</p>
-                <p className="text-xs text-gray-500 mt-0.5 font-semibold">최대 한도</p>
-              </div>
-              <div className="w-px h-8 bg-gray-200" />
-              <div>
-                <p className="text-2xl font-black" style={{ color: PURPLE }}>6.9%~</p>
-                <p className="text-xs text-gray-500 mt-0.5 font-semibold">최저 금리</p>
-              </div>
-              <div className="w-px h-8 bg-gray-200" />
-              <div>
-                <p className="text-2xl font-black" style={{ color: PURPLE }}>당일</p>
-                <p className="text-xs text-gray-500 mt-0.5 font-semibold">입금</p>
-              </div>
-            </div>
-            <a href="#apply">
-              <button className="mt-2 px-8 py-3.5 rounded-xl text-white text-sm font-bold hover:opacity-90 transition-opacity"
-                style={{ background: PURPLE }}>
-                무료 한도조회 →
-              </button>
-            </a>
           </div>
         </section>
 
