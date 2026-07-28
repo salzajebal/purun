@@ -161,7 +161,7 @@ export function AdminApplications() {
                   data.applications.map((app) => (
                     <TableRow key={app.id}>
                       <TableCell className="font-medium text-sm text-muted-foreground">
-                        {new Date(app.created_at).toLocaleString('ko-KR')}
+                        {new Date(app.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}
                       </TableCell>
                       <TableCell className="font-semibold">{app.name}</TableCell>
                       <TableCell>{app.phone}</TableCell>

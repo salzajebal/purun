@@ -121,7 +121,7 @@ export function AdminDashboard() {
                       <div className="text-right">
                         <p className="font-semibold text-primary">{app.loan_amount || '미상'}</p>
                         <p className="text-xs text-muted-foreground">
-                          {new Date(app.created_at).toLocaleDateString()}
+                          {new Date(app.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })}
                         </p>
                       </div>
                     </div>

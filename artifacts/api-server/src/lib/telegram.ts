@@ -32,7 +32,7 @@ export async function sendTelegramNotification(app: Application): Promise<void> 
     app.annual_income ? `연 소득: ${app.annual_income}` : null,
     app.message ? `메모: ${app.message}` : null,
     "",
-    `신청 시간: ${app.created_at.toLocaleString("ko-KR")}`,
+    `신청 시간: ${app.created_at.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}`,
   ].filter(Boolean).join("\n");
 
   const url = `https://api.telegram.org/bot${settings.bot_token}/sendMessage`;
