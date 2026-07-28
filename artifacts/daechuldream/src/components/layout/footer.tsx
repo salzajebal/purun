@@ -20,16 +20,6 @@ export function Footer() {
             <p>주소 : 부산광역시 기장군 일광읍 해송2로 10, 일광역 유림노르웨이아침 306호</p>
             <p>전화번호 : 010-2451-3130</p>
           </div>
-          <div className="w-full md:w-auto flex-shrink-0">
-            <a href="tel:01024513130">
-              <button className="w-full md:w-auto flex items-center justify-center gap-2 bg-[#1a73e8] text-white text-sm font-semibold px-5 py-2.5 rounded-md hover:bg-[#1557b0] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                전화 연결
-              </button>
-            </a>
-          </div>
         </div>
         <div className="max-w-5xl mx-auto px-4 md:px-6 mt-6 border-t border-gray-700 pt-4">
           <p className="text-xs text-center text-gray-500">© 2026 푸른파이낸셜</p>

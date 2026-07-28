@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSubmitApplication, useGetKakaoLink } from "@workspace/api-client-react";
+import { useSubmitApplication } from "@workspace/api-client-react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
@@ -349,7 +349,6 @@ function ConsultationForm() {
 
 /* ── Home ── */
 export function Home() {
-  const { data: kakaoData } = useGetKakaoLink();
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#f3f3fb", fontFamily: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif" }}>
@@ -611,31 +610,6 @@ export function Home() {
 
       <Footer />
 
-      {/* KakaoTalk Float */}
-      <div className="fixed bottom-5 right-4 md:right-5 z-50">
-        {kakaoData?.kakao_link ? (
-          <a href={kakaoData.kakao_link} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full shadow-lg px-3 py-2 md:px-4 md:py-2.5 text-sm font-bold"
-            style={{ background: "#FAE100", color: "#3C1E1E" }}>
-            <span className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: "#3C1E1E" }}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-                <path fill="#FAE100" d="M12 3C6.48 3 2 6.72 2 11.28c0 2.88 1.62 5.43 4.1 7.02l-.71 2.64c-.11.43.16.43.34.31l2.56-1.74c.7.13 1.42.2 1.71.2 5.52 0 10-3.72 10-8.43S17.52 3 12 3z"/>
-              </svg>
-            </span>
-            카카오톡 상담
-          </a>
-        ) : (
-          <button className="flex items-center gap-2 rounded-full shadow-lg px-3 py-2 md:px-4 md:py-2.5 text-sm font-bold cursor-default"
-            style={{ background: "#FAE100", color: "#3C1E1E" }}>
-            <span className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: "#3C1E1E" }}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
-                <path fill="#FAE100" d="M12 3C6.48 3 2 6.72 2 11.28c0 2.88 1.62 5.43 4.1 7.02l-.71 2.64c-.11.43.16.43.34.31l2.56-1.74c.7.13 1.42.2 1.71.2 5.52 0 10-3.72 10-8.43S17.52 3 12 3z"/>
-              </svg>
-            </span>
-            카카오톡 상담
-          </button>
-        )}
-      </div>
     </div>
   );
 }
