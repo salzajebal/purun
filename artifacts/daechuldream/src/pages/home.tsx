@@ -376,8 +376,9 @@ export function Home() {
                 </h1>
 
                 <p className="text-gray-500 leading-relaxed" style={{ fontWeight: 500 }}>
-                  직장인·사업자·주부·무직자 누구나<br />
-                  1분 만에 대출 가능 여부를 확인하세요
+                  직장인 · 사업자 · 주부 · 무직자 · 연체자<br />
+                  누구나 신청 가능합니다. 신용조회 없이<br />
+                  1분 내로 상담 연결해 드립니다.
                 </p>
 
                 {/* Tags */}
